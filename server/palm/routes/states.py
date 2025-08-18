@@ -1,16 +1,5 @@
 from django.http import HttpResponse
-from requests import get
-from ..constants import env_constants
-import os
+from ..clients import home_assistant_client
 
 def index(request):
-    token = os.getenv(env_constants.HOME_ASSISTANT_TOKEN_KEY)
-    url = "http://192.168.1.65:8123/api/states"
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "content-type": "application/json",
-    }
-
-    response = get(url, headers=headers)
-    print(response.text)
-    return HttpResponse(response.text)
+    return HttpResponse(home_assistant_client.get_states(), content_type="application/json")
