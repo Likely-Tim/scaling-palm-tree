@@ -19,4 +19,4 @@ def index(request):
     elif friendly_name:
         items = json_utils.filter_items(items, "friendly_name", friendly_name)
 
-    return HttpResponse(json.dumps(items), content_type="application/json")
+    return HttpResponse(json.dumps(list(items)), content_type="application/json")

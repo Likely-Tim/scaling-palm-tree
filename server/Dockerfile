@@ -12,6 +12,7 @@ RUN pip3 install -r requirements.txt
 COPY . .
 
 # Run the application
-CMD python3 manage.py migrate && \
+CMD python3 manage.py makemigrations palm &&\
+    python3 manage.py migrate && \
     python3 manage.py create_superuser && \
     python3 manage.py runserver 0.0.0.0:8000
