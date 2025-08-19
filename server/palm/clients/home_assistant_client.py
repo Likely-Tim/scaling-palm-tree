@@ -2,8 +2,8 @@ import os
 from requests import get
 from ..constants import env_constants
 
-HOME_ASSISTANT_TOKEN = os.getenv(env_constants.HOME_ASSISTANT_TOKEN_KEY)
-HOME_ASSISTANT_URL = os.getenv(env_constants.HOME_ASSISTANT_URL_KEY)
+HOME_ASSISTANT_TOKEN = os.getenv(env_constants.HOME_ASSISTANT_TOKEN)
+HOME_ASSISTANT_URL = os.getenv(env_constants.HOME_ASSISTANT_URL)
 DEFAULT_HEADERS = {"Authorization": f"Bearer {HOME_ASSISTANT_TOKEN}", "content-type": "application/json",}
 
 def get_states():

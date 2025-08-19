@@ -11,4 +11,6 @@ COPY . .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Run the application
-CMD python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
+CMD python3 manage.py migrate && \
+    python3 manage.py create_superuser && \
+    python3 manage.py runserver 0.0.0.0:8000
