@@ -4,11 +4,12 @@ FROM python:3.12-slim
 # Set the working directory
 WORKDIR /app
 
+# Install dependencies
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+
 # Copy the current directory contents into the container
 COPY . .
-
-# Install dependencies
-RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Run the application
 CMD python3 manage.py migrate && \

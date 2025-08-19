@@ -10,4 +10,6 @@ def get_states():
     return _call("api/states")
 
 def _call(path):
-    return get(f"{HOME_ASSISTANT_URL}/{path}", headers=DEFAULT_HEADERS)
+    url = HOME_ASSISTANT_URL + "/" + path
+    print(f"Sending request to {url}.")
+    return get(url, headers=DEFAULT_HEADERS)

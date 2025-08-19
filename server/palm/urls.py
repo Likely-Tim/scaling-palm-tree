@@ -1,6 +1,6 @@
 from django.urls import path
-from . import routes
+from . import views
 
 urlpatterns = [
-    path("states/", routes.states.index, name="states"),
+    path("states/", views.states.index, name="states"),
 ]
