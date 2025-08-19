@@ -1,4 +1,5 @@
-```
+### Expected .env variables
+```bash
 # Home Assistant
 HOME_ASSISTANT_TOKEN_KEY=
 HOME_ASSISTANT_URL_KEY=
