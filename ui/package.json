@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "format": "prettier --write .",
     "dev": "react-router dev",
     "start": "react-router build && react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc"
@@ -25,9 +26,20 @@
     "@types/node": "^24",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "prettier": "^3.6.2",
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3",
     "vite": "^6.3.3",
     "vite-tsconfig-paths": "^5.1.4"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "printWidth": 100,
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "avoid"
   }
 }
