@@ -1,6 +1,5 @@
 import {
   CloseButton,
-  Container,
   Drawer,
   Flex,
   For,
@@ -10,7 +9,7 @@ import {
   Separator,
   Text
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useNavigate } from 'react-router';
 
@@ -24,7 +23,6 @@ export function NavHeader() {
   };
 
   const redirectClick = (path: string) => {
-    console.log('CLICK');
     navigate(path);
   };
 
