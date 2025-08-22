@@ -19,11 +19,12 @@ export function NavHeader() {
 
   const paths: { [key: string]: string } = {
     Overview: '/overview',
-    Temp: '/temp'
+    Devices: '/devices'
   };
 
   const redirectClick = (path: string) => {
     navigate(path);
+    setOpen(false);
   };
 
   return (
@@ -34,6 +35,7 @@ export function NavHeader() {
       paddingLeft="20px"
       direction="row"
       gap="4"
+      marginBottom="10px"
     >
       <Drawer.Root open={open} onOpenChange={e => setOpen(e.open)} placement="start">
         <Drawer.Trigger asChild boxShadow="md">
