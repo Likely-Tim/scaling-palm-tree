@@ -1,7 +1,6 @@
 import json
 import os
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
 from ..models import Device
 from ..constants import env_constants
@@ -10,7 +9,6 @@ HOME_ASSISTANT_URL = os.getenv(env_constants.HOME_ASSISTANT_URL)
 ENTITY_ID = "entity_id"
 FRIENDLY_NAME = "friendly_name"
 
-@csrf_exempt
 def index(request):
     input = {}
     try:

@@ -27,6 +27,24 @@ SECRET_KEY = "django-insecure-#8g@m-vabk(kv2--$tt9z-15o*rohb@o#n&o=9awd8*blcb(8^
 DEBUG = True
 
 # TODO: Update
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000", "http://192.168.1.62:3000"
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "x-csrftoken",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000", "http://192.168.1.62:3000"
+]
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = None
+
+# TODO: Update
 ALLOWED_HOSTS = ["*"]
 
 
@@ -34,6 +52,7 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "palm",
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -43,6 +62,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
