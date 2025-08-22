@@ -11,10 +11,25 @@ class ServerClient {
     return (await this.call('/states')) as State[];
   }
 
-  private async call(url: string) {
+  async registerDevice(entityId: string, friendlyName: string) {
+    return await this.call('/register/', {
+      entity_id: entityId,
+      friendly_name: friendlyName
+    });
+  }
+
+  private async call(url: string, urlSearchParams?: { [key: string]: string }) {
+    const postData = urlSearchParams
+      ? {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(urlSearchParams)
+        }
+      : {};
     const targetUrl = `${this.endpoint}${url}`;
     console.log(`Calling ${targetUrl}`);
-    const response = await fetch(targetUrl);
+
+    const response = await fetch(targetUrl, postData);
     if (!response.ok) {
       throw new Error(`Error response code: ${response.status}`);
     }

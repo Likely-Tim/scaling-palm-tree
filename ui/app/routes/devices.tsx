@@ -1,6 +1,7 @@
 import serverClient from '~/clients/server_client';
 import { Page } from '~/components/page';
 import {
+  Button,
   Card,
   Container,
   Flex,
@@ -19,6 +20,7 @@ import { RxSwitch } from 'react-icons/rx';
 import { capitalizeFirstCharacter } from '~/utils/text_utils';
 import { useState } from 'react';
 import type { State } from '~/models/State';
+import { toaster } from '~/components/ui/toaster';
 
 interface EnrichedState extends State {
   domain: string;
@@ -116,6 +118,16 @@ function getSelect(states: EnrichedState[], setSelectedValue: (value: string | u
 }
 
 function getCards(states: EnrichedState[], selectedValue: string | undefined) {
+  const registerAction = (entityId: string, friendlyName: string) => {
+    toaster.promise(serverClient.registerDevice(entityId, friendlyName), {
+      success: {
+        title: `Successfully registered device: ${friendlyName}`
+      },
+      error: { title: `Failed to register device: ${friendlyName}` },
+      loading: { title: `Trying to register device: ${friendlyName}` }
+    });
+  };
+
   return (
     <Flex flexWrap="wrap" gap="3" justifyContent="space-between">
       <For each={states.filter(state => selectedValue == null || state.domain == selectedValue)}>
@@ -142,7 +154,13 @@ function getCards(states: EnrichedState[], selectedValue: string | undefined) {
                   {state.state}
                 </Text>
               </Card.Body>
-              <Card.Footer />
+              <Card.Footer>
+                <Button
+                  onClick={() => registerAction(state.entity_id, state.attributes.friendly_name)}
+                >
+                  Register
+                </Button>
+              </Card.Footer>
             </Card.Root>
           );
         }}
