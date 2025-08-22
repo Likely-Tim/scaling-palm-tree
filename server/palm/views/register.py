@@ -1,38 +1,39 @@
 import json
 import os
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
-from ..clients import home_assistant_client
 from ..models import Device
 from ..constants import env_constants
 
 HOME_ASSISTANT_URL = os.getenv(env_constants.HOME_ASSISTANT_URL)
+ENTITY_ID = "entity_id"
+FRIENDLY_NAME = "friendly_name"
 
-def index(request, domain):
-    if domain == None:
-        return HttpResponseBadRequest("No domain provided.")
+@csrf_exempt
+def index(request):
+    input = {}
+    try:
+        input = _validate(request)
+    except Exception:
+        return HttpResponseBadRequest()
+    
+    entity_domain = input.get(ENTITY_ID).split('.', 1)[0]
 
-    states = home_assistant_client.get_states()
-    data = json.loads(states.text)
-    registered_devices = []
-
-    for item in data:
-        entity_id = item.get("entity_id")
-        entity_domain = entity_id.split('.', 1)[0]
-
-        if (domain != entity_domain):
-            continue
-        device, created = Device.objects.get_or_create(
-            home_assistant_url=HOME_ASSISTANT_URL, 
+    device, created = Device.objects.get_or_create(
+            home_assistant_url=HOME_ASSISTANT_URL,
             domain=entity_domain, 
-            entity_id=entity_id, 
-            friendly_name=item.get("attributes").get("friendly_name", "N/A")
-        )
-        device = model_to_dict(device)
-        if created:
-            print(f"Device registered: {device}")
-            registered_devices.append(device)
-        else:
-            print(f"Device registration skipped: {device}")
+            entity_id=input.get(ENTITY_ID), 
+            friendly_name=input.get(FRIENDLY_NAME)
+    )
 
-    return HttpResponse(json.dumps(registered_devices), content_type="application/json")
+    return HttpResponse(json.dumps(model_to_dict(device)), content_type="application/json")
+
+def _validate(request):
+    if request.method != "POST":
+        raise Exception("Not a post request.")
+    body = json.loads(request.body)
+    return {
+        ENTITY_ID: body.get(ENTITY_ID),
+        FRIENDLY_NAME: body.get(FRIENDLY_NAME)
+    }
