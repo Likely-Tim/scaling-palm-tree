@@ -1,7 +1,7 @@
 services:
-  web:
+  server:
     build: .
-    container_name: scaling_palm_tree
+    container_name: scaling_palm_tree_server
     ports:
       - "8000:8000"
     volumes:
