@@ -14,11 +14,35 @@ class ServerClient {
     return states;
   }
 
+  async registerDevice(entityId: string, friendlyName: string) {
+    return await this.postCall("/register", {
+      entity_id: entityId,
+      friendly_name: friendlyName,
+    });
+  }
+
   private async getCall(url: string) {
     const targetUrl = `${this.endpoint}${url}`;
     console.log(`Calling ${targetUrl}`);
 
     const response = await fetch(targetUrl);
+    if (!response.ok) {
+      throw new Error(`Error response code: ${response.status}`);
+    }
+    return await response.json();
+  }
+
+  private async postCall(url: string, data: { [key: string]: string }) {
+    const targetUrl = `${this.endpoint}${url}/`;
+    console.log(`Calling ${targetUrl}`);
+
+    const response = await fetch(targetUrl, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
     if (!response.ok) {
       throw new Error(`Error response code: ${response.status}`);
     }

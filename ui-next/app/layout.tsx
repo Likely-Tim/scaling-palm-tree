@@ -4,6 +4,7 @@ import { Provider } from "./_components/ui/provider";
 import { NavHeader } from "./_components/nav_header";
 import { inter } from "./fonts";
 import { Container } from "@chakra-ui/react";
+import { Toaster } from "./_components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,9 +21,8 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <Provider>
           <NavHeader />
-          <Container maxWidth={"80vw"} margin={"0 auto"} width={"100%"}>
-            {children}
-          </Container>
+          <Toaster />
+          {children}
         </Provider>
       </body>
     </html>

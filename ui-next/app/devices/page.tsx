@@ -1,12 +1,14 @@
 import { Container, Flex, Text } from "@chakra-ui/react";
 import serverClient from "../_clients/server_client";
 import DeviceCard from "../_components/device_card";
+import { sortStates } from "../utils/state_utils";
 
 export default async function Page() {
   const states = await serverClient.getStates();
+  sortStates(states);
 
   return (
-    <Container width={"100%"} margin={"0 auto"}>
+    <Container>
       <Flex flexWrap="wrap" gap="3" justifyContent="space-between">
         {states.map((state) => {
           return (

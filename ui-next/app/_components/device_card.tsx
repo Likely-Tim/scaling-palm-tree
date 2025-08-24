@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Card, Flex, Icon, Mark, Text } from "@chakra-ui/react";
 import { capitalizeFirstCharacter } from "../utils/text_utils";
 import { DeviceCardProps } from "../_models/device_card_props";
@@ -5,12 +7,14 @@ import { CiSun } from "react-icons/ci";
 import { MdOutlineSensors } from "react-icons/md";
 import { RxSwitch } from "react-icons/rx";
 import { TbCarFan, TbDeviceUnknown } from "react-icons/tb";
+import { registerDevice } from "@/_actions/server_client_actions";
+import { toaster } from "./ui/toaster";
 
 export default function DeviceCard(props: DeviceCardProps) {
   return (
-    <Card.Root padding={"10px"} minWidth={"200px"}>
+    <Card.Root padding={"5px"} minWidth={"250px"}>
       <Card.Header>
-        <Flex gap="2" alignItems="center">
+        <Flex gap="3" alignItems="center">
           <Icon size="md">{getDomainIcon(props.domain)}</Icon>
           <Text>{capitalizeFirstCharacter(props.domain)}</Text>
         </Flex>
@@ -30,7 +34,26 @@ export default function DeviceCard(props: DeviceCardProps) {
         </Text>
       </Card.Body>
       <Card.Footer justifyContent="flex-end" margin={"12px"}>
-        <Button padding={"8px"}>Register</Button>
+        <Button
+          onClick={async () => {
+            toaster.promise(
+              registerDevice(props.entityId, props.friendlyName),
+              {
+                success: {
+                  title: `Successfully registered device: ${props.friendlyName}`,
+                },
+                error: {
+                  title: `Failed to register device: ${props.friendlyName}`,
+                },
+                loading: {
+                  title: `Trying to register device: ${props.friendlyName}`,
+                },
+              }
+            );
+          }}
+        >
+          Register
+        </Button>
       </Card.Footer>
     </Card.Root>
   );

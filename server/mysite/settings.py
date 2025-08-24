@@ -28,7 +28,7 @@ DEBUG = True
 
 # TODO: Update
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", "http://192.168.1.62:3000"
+    "http://localhost:3000", "http://192.168.1.37:3000"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -39,7 +39,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000", "http://192.168.1.62:3000"
+    "http://localhost:3000", "http://192.168.1.37:3000"
 ]
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = None
