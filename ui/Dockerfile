@@ -1,4 +1,4 @@
-FROM node:24-alpine
+FROM node:24-slim
 
 # Set working directory
 WORKDIR /app
@@ -13,4 +13,5 @@ RUN npm ci --omit=dev
 COPY . .
 
 # Start the application
-CMD ["npm", "run", "start"]
+CMD npm run build && \
+    npm run start

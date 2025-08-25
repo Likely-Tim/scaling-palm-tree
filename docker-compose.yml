@@ -1,13 +1,13 @@
 services:
   web:
-    build: ./ui-next
+    build: ./ui
     container_name: scaling_palm_tree_ui
     ports:
       - "3000:3000"
     volumes:
-      - ./ui-next:/app
+      - ./ui:/app
     env_file:
-      - ./ui-next/.env
+      - ./ui/.env
 
   server:
     build: ./server
