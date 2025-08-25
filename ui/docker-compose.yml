@@ -1,0 +1,10 @@
+services:
+    web:
+        build: .
+        container_name: scaling_palm_tree_ui
+        ports:
+            - '3000:3000'
+        volumes:
+            - .:/app
+        env_file:
+            - .env

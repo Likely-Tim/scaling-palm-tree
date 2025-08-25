@@ -38,7 +38,7 @@ class ServerClient {
         const targetUrl = `${this.endpoint}${url}`;
         console.log(`Calling ${targetUrl}`);
 
-        const response = await fetch(targetUrl);
+        const response = await fetch(targetUrl, { cache: 'no-store' });
         if (!response.ok) {
             throw new Error(`Error response code: ${response.status}`);
         }
