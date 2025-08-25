@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import serverClient from '../_clients/server_client';
 import { sortStates } from '../utils/state_utils';
-import DevicesPage from './page_container';
+import { Container } from '@chakra-ui/react';
+import DeviceBlock from '../_components/device_block';
 
 export const metadata: Metadata = {
     title: 'Device Management'
@@ -10,6 +11,29 @@ export const metadata: Metadata = {
 export default async function Page() {
     const states = await serverClient.getStates();
     sortStates(states);
+    const registeredDevices = await serverClient.getRegisteredDevices();
 
-    return <DevicesPage states={states} />;
+    const unregisteredStates = states.filter(
+        state =>
+            !registeredDevices.some(
+                device => device.entity_id === state.entity_id
+            )
+    );
+
+    return (
+        <Container>
+            <DeviceBlock
+                name={'Registered Devices'}
+                data={registeredDevices}
+                showDeregisterButton={true}
+                showRegisterButton={false}
+            />
+            <DeviceBlock
+                name={'Unregistered Devices'}
+                data={unregisteredStates}
+                showDeregisterButton={false}
+                showRegisterButton={true}
+            />
+        </Container>
+    );
 }

@@ -1,3 +1,4 @@
+import { Device } from '../_models/device';
 import { State } from '../_models/state';
 import { getDomain } from '../utils/state_utils';
 
@@ -12,6 +13,10 @@ class ServerClient {
         const states = (await this.getCall('/states')) as State[];
         states.forEach(state => getDomain(state));
         return states;
+    }
+
+    async getRegisteredDevices(): Promise<Device[]> {
+        return (await this.getCall('/devices/registered')) as Device[];
     }
 
     async registerDevice(entityId: string, friendlyName: string) {
