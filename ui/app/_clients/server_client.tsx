@@ -15,7 +15,7 @@ class ServerClient {
   }
 
   async registerDevice(entityId: string, friendlyName: string) {
-    return await this.postCall("/register", {
+    return await this.postCall("/devices/register", {
       entity_id: entityId,
       friendly_name: friendlyName,
     });

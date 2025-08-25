@@ -1,10 +1,10 @@
 import json
 import os
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.forms.models import model_to_dict
 from django.views.decorators.csrf import csrf_exempt
-from ..models import Device
-from ..constants import env_constants
+from palm.constants import env_constants
+from palm.models import Device
 
 HOME_ASSISTANT_URL = os.getenv(env_constants.HOME_ASSISTANT_URL)
 ENTITY_ID = "entity_id"
@@ -27,7 +27,7 @@ def index(request):
             friendly_name=input.get(FRIENDLY_NAME)
     )
 
-    return HttpResponse(json.dumps(model_to_dict(device)), content_type="application/json")
+    return JsonResponse(model_to_dict(device))
 
 def _validate(request):
     if request.method != "POST":

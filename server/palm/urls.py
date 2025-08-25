@@ -1,8 +1,9 @@
 from django.urls import path
-from. import views
+from . import views
+from .views import devices
 
 urlpatterns = [
     path("states/", views.states.index, name="states"),
-    path("register/", views.register.index, name="register"),
-    path("csrf/", views.csrf.index, name="csrf")
+    path("devices/register/", devices.register.index, name="devices_register"),
+    path("devices/registered/", devices.registered.index, name="devices_registered")
 ]
