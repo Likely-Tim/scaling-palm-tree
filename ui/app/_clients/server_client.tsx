@@ -1,3 +1,4 @@
+import { SERVER_CLIENT_URL } from '../_constants/env_constants';
 import { Device } from '../_models/device';
 import { State } from '../_models/state';
 import { getDomain } from '../utils/state_utils';
@@ -55,6 +56,6 @@ class ServerClient {
     }
 }
 
-const serverClient = new ServerClient('http://192.168.1.37:8000/api');
+const serverClient = new ServerClient(SERVER_CLIENT_URL);
 
 export default serverClient;
