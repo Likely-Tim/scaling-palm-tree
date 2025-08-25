@@ -6,7 +6,10 @@ import { CiSun } from 'react-icons/ci';
 import { MdOutlineSensors } from 'react-icons/md';
 import { RxSwitch } from 'react-icons/rx';
 import { TbCarFan, TbDeviceUnknown } from 'react-icons/tb';
-import { registerDevice } from '@/app/_actions/server_client_actions';
+import {
+    deregisterDevice,
+    registerDevice
+} from '@/app/_actions/server_client_actions';
 import { toaster } from './ui/toaster';
 import { useRouter } from 'next/navigation';
 
@@ -69,7 +72,29 @@ export default function DeviceCard(props: DeviceCardProps) {
                 >
                     Register
                 </Button>
-                <Button display={props.showDeregisterButton ? 'block' : 'none'}>
+                <Button
+                    display={props.showDeregisterButton ? 'block' : 'none'}
+                    onClick={async () => {
+                        toaster.promise(
+                            deregisterDevice(
+                                props.entityId,
+                                props.friendlyName
+                            ),
+                            {
+                                success: {
+                                    title: `Successfully deregistered device: ${props.friendlyName}`
+                                },
+                                error: {
+                                    title: `Failed to deregister device: ${props.friendlyName}`
+                                },
+                                loading: {
+                                    title: `Trying to deregister device: ${props.friendlyName}`
+                                }
+                            }
+                        );
+                        router.refresh();
+                    }}
+                >
                     Deregister
                 </Button>
             </Card.Footer>

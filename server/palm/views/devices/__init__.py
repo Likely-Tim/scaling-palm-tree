@@ -1,1 +1,1 @@
-from . import register, registered
+from . import register, registered, deregister

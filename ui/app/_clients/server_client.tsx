@@ -27,6 +27,13 @@ class ServerClient {
         });
     }
 
+    async deregisterDevice(entityId: string, friendlyName: string) {
+        return await this.postCall('/devices/deregister', {
+            entity_id: entityId,
+            friendly_name: friendlyName
+        });
+    }
+
     private async getCall(url: string) {
         const targetUrl = `${this.endpoint}${url}`;
         console.log(`Calling ${targetUrl}`);
