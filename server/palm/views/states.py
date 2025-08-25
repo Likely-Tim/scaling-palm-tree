@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from ..utils import json_utils
 from ..clients import home_assistant_client
 
+
 def index(request):
     entity_id = request.GET.get("entity_id")
     friendly_name = request.GET.get("friendly_name")
@@ -11,7 +12,10 @@ def index(request):
         return HttpResponseBadRequest("Only entity id or friendly_name can be specified")
 
     states = home_assistant_client.get_states()
-    data = json.loads(states.text)
+    try: 
+        data = json.loads(states.text)
+    except:
+        data = {}
     items = data
 
     if entity_id:
