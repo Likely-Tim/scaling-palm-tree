@@ -5,7 +5,10 @@ import {
     Select,
     Flex,
     createListCollection,
-    Heading
+    Heading,
+    SimpleGrid,
+    GridItem,
+    Grid
 } from '@chakra-ui/react';
 import DeviceCard from './device_card';
 import { Device } from '../_models/device';
@@ -66,12 +69,7 @@ export default function DeviceBlock(props: DeviceBlockProps) {
                     </Select.Content>
                 </Select.Positioner>
             </Select.Root>
-            <Flex
-                flexWrap="wrap"
-                gap="3"
-                justifyContent="space-between"
-                marginBottom={'20px'}
-            >
+            <Grid gridTemplateColumns={'repeat(3, 1fr)'} gap={'10px'}>
                 {props.data
                     .filter(
                         item =>
@@ -97,7 +95,7 @@ export default function DeviceBlock(props: DeviceBlockProps) {
                             />
                         );
                     })}
-            </Flex>
+            </Grid>
         </Container>
     );
 }
