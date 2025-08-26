@@ -34,6 +34,14 @@ class ServerClient {
         });
     }
 
+    async modifyDeviceState(domain: string, service: string, entityId: string) {
+        return await this.postCall('/devices/state/modify', {
+            domain: domain,
+            service: service,
+            entity_id: entityId
+        });
+    }
+
     private async getCall(url: string) {
         const targetUrl = `${this.endpoint}${url}`;
         console.log(`Calling ${targetUrl}`);

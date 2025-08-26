@@ -1,5 +1,5 @@
 import os
-from requests import get, exceptions
+from requests import get, exceptions, post
 from ..constants import env_constants
 
 HOME_ASSISTANT_TOKEN = os.getenv(env_constants.HOME_ASSISTANT_TOKEN)
@@ -12,10 +12,24 @@ def get_states():
 def get_services():
     return _call("api/services")
 
+def post_services(domain, service, entity_id):
+    return _callPost(f"api/services/{domain}/{service}", {"entity_id": entity_id})
+
 def _call(path):
     url = HOME_ASSISTANT_URL + "/" + path
     print(f"Sending request to {url}.")
     response = get(url, headers=DEFAULT_HEADERS)
+    try:
+        response.raise_for_status()
+    except exceptions.HTTPError as error:
+        print("HA Client Error: " + str(error))
+    return response
+
+def _callPost(path, data):
+    url = HOME_ASSISTANT_URL + "/" + path
+    print(f"Sending request to {url}.")
+
+    response = post(url, headers=DEFAULT_HEADERS, json=data)
     try:
         response.raise_for_status()
     except exceptions.HTTPError as error:

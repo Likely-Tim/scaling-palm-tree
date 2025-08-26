@@ -46,11 +46,17 @@ export default async function Page() {
 
 function getDomainCapabilities(
     domain: string | undefined,
-    entity_id: string | undefined
+    entityId: string | undefined
 ): JSX.Element[] {
+    if (entityId == undefined) {
+        return [];
+    }
+
     switch (domain) {
         case 'switch':
-            return [<HaSwitch key={`${entity_id}_switch`} />];
+            return [
+                <HaSwitch key={`${entityId}_switch`} entityId={entityId} />
+            ];
         default:
             return [];
     }
