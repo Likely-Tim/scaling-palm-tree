@@ -12,12 +12,14 @@ import {
 } from '@/app/_actions/server_client_actions';
 import { toaster } from './ui/toaster';
 import { useRouter } from 'next/navigation';
+import { JSX } from '@emotion/react/jsx-runtime';
 
 export interface DeviceCardProps {
     domain: string;
     friendlyName: string;
     entityId: string;
     state?: string;
+    capabilities?: JSX.Element[];
     showRegisterButton: boolean;
     showDeregisterButton: boolean;
 }
@@ -102,6 +104,7 @@ export default function DeviceCard(props: DeviceCardProps) {
                         Deregister
                     </Button>
                 ) : undefined}
+                {props.capabilities}
             </Card.Footer>
         </Card.Root>
     );

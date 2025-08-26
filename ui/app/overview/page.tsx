@@ -1,9 +1,11 @@
 import { Metadata } from 'next';
 import serverClient from '../_clients/server_client';
 import { sortStates } from '../utils/state_utils';
-import { DeviceWithState } from '../_models/device';
+import { DeviceWithCapabilities } from '../_models/device';
 import { Container } from '@chakra-ui/react';
 import DeviceBlock from '../_components/device_block';
+import { JSX } from '@emotion/react/jsx-runtime';
+import HaSwitch from '../_components/ha_switch';
 
 export const metadata: Metadata = {
     title: 'Overview'
@@ -14,12 +16,19 @@ export default async function Page() {
     sortStates(states);
     const registeredDevices = await serverClient.getRegisteredDevices();
 
-    const devicesWithState: DeviceWithState[] = registeredDevices.map(
+    const devicesWithState: DeviceWithCapabilities[] = registeredDevices.map(
         device => {
             const matchingState = states.find(
                 state => state.entity_id === device.entity_id
             );
-            return { ...device, state: matchingState?.state || 'Unknown' };
+            return {
+                ...device,
+                state: matchingState?.state || 'Unknown',
+                capabilities: getDomainCapabilities(
+                    matchingState?.domain,
+                    matchingState?.entity_id
+                )
+            };
         }
     );
 
@@ -33,4 +42,16 @@ export default async function Page() {
             />
         </Container>
     );
+}
+
+function getDomainCapabilities(
+    domain: string | undefined,
+    entity_id: string | undefined
+): JSX.Element[] {
+    switch (domain) {
+        case 'switch':
+            return [<HaSwitch key={`${entity_id}_switch`} />];
+        default:
+            return [];
+    }
 }

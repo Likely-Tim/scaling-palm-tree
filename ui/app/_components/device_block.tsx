@@ -11,16 +11,17 @@ import {
     Grid
 } from '@chakra-ui/react';
 import DeviceCard from './device_card';
-import { Device } from '../_models/device';
+import { Device, DeviceWithCapabilities } from '../_models/device';
 import { State } from '../_models/state';
 import { capitalizeFirstCharacter } from '../utils/text_utils';
 import { useState } from 'react';
+import { JSX } from '@emotion/react/jsx-runtime';
 
 export interface DeviceBlockProps {
     name: string;
     showRegisterButton: boolean;
     showDeregisterButton: boolean;
-    data: Device[] | State[];
+    data: Device[] | DeviceWithCapabilities[] | State[];
 }
 
 export default function DeviceBlock(props: DeviceBlockProps) {
@@ -88,6 +89,11 @@ export default function DeviceBlock(props: DeviceBlockProps) {
                                 }
                                 entityId={item.entity_id}
                                 state={'state' in item ? item.state : undefined}
+                                capabilities={
+                                    'capabilities' in item
+                                        ? item.capabilities
+                                        : undefined
+                                }
                                 showDeregisterButton={
                                     props.showDeregisterButton
                                 }
