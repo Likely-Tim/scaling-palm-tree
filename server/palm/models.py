@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.functions import Lower
 
 class Device(models.Model):
     home_assistant_url = models.CharField(null=False, blank=False)
@@ -10,3 +11,21 @@ class Device(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['home_assistant_url', 'entity_id'], name='unique_entities')
         ]
+
+# Device Group is meant to coalesce individual devices together. 
+class DeviceGroup(models.Model):
+    name = models.CharField(max_length=255, null=False, blank=False)
+    description = models.CharField(null=False, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(Lower("name"), name="unique_lowercase_group_name")
+        ]
+
+class DeviceGroupMembers(models.Model):
+    group_id = models.ForeignKey(DeviceGroup, on_delete=models.CASCADE)
+    device_id = models.ForeignKey(Device, on_delete=models.CASCADE)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["device_id", "group_id"], name="unique_device_group_membership")
+    ]
