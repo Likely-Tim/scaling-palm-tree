@@ -50,53 +50,58 @@ export default function DeviceCard(props: DeviceCardProps) {
                 ) : undefined}
             </Card.Body>
             <Card.Footer justifyContent="flex-end" margin={'12px'}>
-                <Button
-                    display={props.showRegisterButton ? 'block' : 'none'}
-                    onClick={async () => {
-                        toaster.promise(
-                            registerDevice(props.entityId, props.friendlyName),
-                            {
-                                success: {
-                                    title: `Successfully registered device: ${props.friendlyName}`
-                                },
-                                error: {
-                                    title: `Failed to register device: ${props.friendlyName}`
-                                },
-                                loading: {
-                                    title: `Trying to register device: ${props.friendlyName}`
+                {props.showRegisterButton ? (
+                    <Button
+                        onClick={async () => {
+                            toaster.promise(
+                                registerDevice(
+                                    props.entityId,
+                                    props.friendlyName
+                                ),
+                                {
+                                    success: {
+                                        title: `Successfully registered device: ${props.friendlyName}`
+                                    },
+                                    error: {
+                                        title: `Failed to register device: ${props.friendlyName}`
+                                    },
+                                    loading: {
+                                        title: `Trying to register device: ${props.friendlyName}`
+                                    }
                                 }
-                            }
-                        );
-                        router.refresh();
-                    }}
-                >
-                    Register
-                </Button>
-                <Button
-                    display={props.showDeregisterButton ? 'block' : 'none'}
-                    onClick={async () => {
-                        toaster.promise(
-                            deregisterDevice(
-                                props.entityId,
-                                props.friendlyName
-                            ),
-                            {
-                                success: {
-                                    title: `Successfully deregistered device: ${props.friendlyName}`
-                                },
-                                error: {
-                                    title: `Failed to deregister device: ${props.friendlyName}`
-                                },
-                                loading: {
-                                    title: `Trying to deregister device: ${props.friendlyName}`
+                            );
+                            router.refresh();
+                        }}
+                    >
+                        Register
+                    </Button>
+                ) : undefined}
+                {props.showDeregisterButton ? (
+                    <Button
+                        onClick={async () => {
+                            toaster.promise(
+                                deregisterDevice(
+                                    props.entityId,
+                                    props.friendlyName
+                                ),
+                                {
+                                    success: {
+                                        title: `Successfully deregistered device: ${props.friendlyName}`
+                                    },
+                                    error: {
+                                        title: `Failed to deregister device: ${props.friendlyName}`
+                                    },
+                                    loading: {
+                                        title: `Trying to deregister device: ${props.friendlyName}`
+                                    }
                                 }
-                            }
-                        );
-                        router.refresh();
-                    }}
-                >
-                    Deregister
-                </Button>
+                            );
+                            router.refresh();
+                        }}
+                    >
+                        Deregister
+                    </Button>
+                ) : undefined}
             </Card.Footer>
         </Card.Root>
     );

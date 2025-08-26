@@ -82,12 +82,12 @@ export default function DeviceBlock(props: DeviceBlockProps) {
                                 key={item.entity_id}
                                 domain={item.domain}
                                 friendlyName={
-                                    isDevice(item)
+                                    'friendly_name' in item
                                         ? item.friendly_name
                                         : item.attributes.friendly_name
                                 }
                                 entityId={item.entity_id}
-                                state={isDevice(item) ? undefined : item.state}
+                                state={'state' in item ? item.state : undefined}
                                 showDeregisterButton={
                                     props.showDeregisterButton
                                 }
@@ -109,8 +109,4 @@ function getListCollection(data: State[] | Device[]) {
         };
     });
     return createListCollection({ items: selectValues });
-}
-
-function isDevice(item: Device | State) {
-    return 'friendly_name' in item;
 }

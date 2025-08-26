@@ -3,3 +3,7 @@ export interface Device {
     entity_id: string;
     friendly_name: string;
 }
+
+export interface DeviceWithState extends Device {
+    state: string;
+}
