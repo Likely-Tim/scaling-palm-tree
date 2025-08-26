@@ -9,6 +9,9 @@ DEFAULT_HEADERS = {"Authorization": f"Bearer {HOME_ASSISTANT_TOKEN}", "content-t
 def get_states():
     return _call("api/states")
 
+def get_services():
+    return _call("api/services")
+
 def _call(path):
     url = HOME_ASSISTANT_URL + "/" + path
     print(f"Sending request to {url}.")
