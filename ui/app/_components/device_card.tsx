@@ -1,6 +1,15 @@
 'use client';
 
-import { Button, Card, Flex, Icon, Mark, Text } from '@chakra-ui/react';
+import {
+    Button,
+    Card,
+    Drawer,
+    Flex,
+    Icon,
+    IconButton,
+    Mark,
+    Text
+} from '@chakra-ui/react';
 import { capitalizeFirstCharacter } from '../utils/text_utils';
 import { CiSun } from 'react-icons/ci';
 import { MdOutlineSensors } from 'react-icons/md';
@@ -13,6 +22,10 @@ import {
 import { toaster } from './ui/toaster';
 import { useRouter } from 'next/navigation';
 import { JSX } from '@emotion/react/jsx-runtime';
+import { FaExternalLinkAlt } from 'react-icons/fa';
+import { createDialogOverlay } from '../utils/overlay_utils';
+import { useState } from 'react';
+import DeviceCardOverlay from './device_card_overlay';
 
 export interface DeviceCardProps {
     domain: string;
@@ -20,12 +33,14 @@ export interface DeviceCardProps {
     entityId: string;
     state?: string;
     capabilities?: JSX.Element[];
-    showRegisterButton: boolean;
-    showDeregisterButton: boolean;
+    showRegisterButton?: boolean;
+    showDeregisterButton?: boolean;
+    showPopoutButton?: boolean;
 }
 
 export default function DeviceCard(props: DeviceCardProps) {
     const router = useRouter();
+    const [overlayEnabled, setOverlayEnabled] = useState(false);
 
     return (
         <Card.Root padding={'5px'} minWidth={'250px'}>
@@ -33,6 +48,19 @@ export default function DeviceCard(props: DeviceCardProps) {
                 <Flex gap="3" alignItems="center">
                     <Icon size="md">{getDomainIcon(props.domain)}</Icon>
                     <Text>{capitalizeFirstCharacter(props.domain)}</Text>
+                    {props.showPopoutButton ? (
+                        <DeviceCardOverlay
+                            titleElements={[
+                                <Icon key={'iconOverlay'} size="md">
+                                    {getDomainIcon(props.domain)}
+                                </Icon>,
+                                <Text key={'textOverlay'}>
+                                    {capitalizeFirstCharacter(props.domain)} -{' '}
+                                    {props.friendlyName}
+                                </Text>
+                            ]}
+                        />
+                    ) : undefined}
                 </Flex>
             </Card.Header>
             <Card.Body margin={'3px'}>

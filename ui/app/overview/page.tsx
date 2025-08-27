@@ -40,8 +40,7 @@ export default async function Page() {
             <RefreshBar />
             <DeviceBlock
                 name={'Devices'}
-                showDeregisterButton={false}
-                showRegisterButton={false}
+                showPopoutButton={true}
                 data={devicesWithState}
             />
         </Container>

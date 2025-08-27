@@ -15,8 +15,9 @@ import { useState } from 'react';
 
 export interface DeviceBlockProps {
     name: string;
-    showRegisterButton: boolean;
-    showDeregisterButton: boolean;
+    showRegisterButton?: boolean;
+    showDeregisterButton?: boolean;
+    showPopoutButton?: boolean;
     data: Device[] | DeviceWithCapabilities[] | State[];
 }
 
@@ -94,6 +95,7 @@ export default function DeviceBlock(props: DeviceBlockProps) {
                                     props.showDeregisterButton
                                 }
                                 showRegisterButton={props.showRegisterButton}
+                                showPopoutButton={props.showPopoutButton}
                             />
                         );
                     })}
