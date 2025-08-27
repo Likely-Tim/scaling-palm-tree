@@ -2,10 +2,10 @@
 
 import { Switch } from '@chakra-ui/react';
 import { useState } from 'react';
-import { LiaSunSolid } from 'react-icons/lia';
 import { LuMoon } from 'react-icons/lu';
 import { modifyDeviceState } from '../_actions/server_client_actions';
 import { useRouter } from 'next/navigation';
+import { MdSunny } from 'react-icons/md';
 
 export interface HaSwitchProps {
     state: string | undefined;
@@ -35,11 +35,10 @@ export default function HaSwitch(props: HaSwitchProps) {
             <Switch.HiddenInput />
             <Switch.Label>Toggle</Switch.Label>
             <Switch.Control>
-                <Switch.Thumb>
-                    <Switch.ThumbIndicator fallback={<LuMoon />}>
-                        <LiaSunSolid />
-                    </Switch.ThumbIndicator>
-                </Switch.Thumb>
+                <Switch.Thumb />
+                <Switch.Indicator fallback={<LuMoon />}>
+                    <MdSunny color="black" />
+                </Switch.Indicator>
             </Switch.Control>
         </Switch.Root>
     );
