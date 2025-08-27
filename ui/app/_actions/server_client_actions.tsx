@@ -30,8 +30,8 @@ export async function getEntityState(entityId: string) {
 export async function checkToggleState(
     entityId: string,
     oldState: string,
-    count: number,
-    delayMs: number
+    count: number = 10,
+    delayMs: number = 1000
 ) {
     return await retry(
         async () => {
