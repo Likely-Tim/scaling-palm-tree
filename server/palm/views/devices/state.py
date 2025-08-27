@@ -25,4 +25,6 @@ def _processPost(request, entityId):
 def _processGet(request, entityId):
     response = home_assistant_client.get_entity_state(entityId)
 
+
     return JsonResponse(json.loads(response.text))
+
