@@ -1,15 +1,6 @@
 'use client';
 
-import {
-    Button,
-    Card,
-    Drawer,
-    Flex,
-    Icon,
-    IconButton,
-    Mark,
-    Text
-} from '@chakra-ui/react';
+import { Button, Card, Flex, Icon, Mark, Text } from '@chakra-ui/react';
 import { capitalizeFirstCharacter } from '../utils/text_utils';
 import { CiSun } from 'react-icons/ci';
 import { MdOutlineSensors } from 'react-icons/md';
@@ -22,8 +13,6 @@ import {
 import { toaster } from './ui/toaster';
 import { useRouter } from 'next/navigation';
 import { JSX } from '@emotion/react/jsx-runtime';
-import { FaExternalLinkAlt } from 'react-icons/fa';
-import { createDialogOverlay } from '../utils/overlay_utils';
 import { useState } from 'react';
 import DeviceCardOverlay from './device_card_overlay';
 
@@ -109,22 +98,17 @@ export default function DeviceCard(props: DeviceCardProps) {
                 {props.showDeregisterButton ? (
                     <Button
                         onClick={async () => {
-                            toaster.promise(
-                                deregisterDevice(
-                                    props.entityId
-                                ),
-                                {
-                                    success: {
-                                        title: `Successfully deregistered device: ${props.friendlyName}`
-                                    },
-                                    error: {
-                                        title: `Failed to deregister device: ${props.friendlyName}`
-                                    },
-                                    loading: {
-                                        title: `Trying to deregister device: ${props.friendlyName}`
-                                    }
+                            toaster.promise(deregisterDevice(props.entityId), {
+                                success: {
+                                    title: `Successfully deregistered device: ${props.friendlyName}`
+                                },
+                                error: {
+                                    title: `Failed to deregister device: ${props.friendlyName}`
+                                },
+                                loading: {
+                                    title: `Trying to deregister device: ${props.friendlyName}`
                                 }
-                            );
+                            });
                             router.refresh();
                         }}
                     >
