@@ -33,19 +33,8 @@ export default function HaSwitch(props: HaSwitchProps) {
                 setDisabled(true);
                 const priorState = await getEntityState(props.entityId);
                 await modifyDeviceState('switch', 'toggle', props.entityId);
-                await checkToggleState(
-                    props.entityId,
-                    priorState.state,
-                    10,
-                    1000
-                );
                 getActionToast(
-                    checkToggleState(
-                        props.entityId,
-                        priorState.state,
-                        10,
-                        1000
-                    ),
+                    checkToggleState(props.entityId, priorState.state),
                     'toggled',
                     props.entityId
                 );
