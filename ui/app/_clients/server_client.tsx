@@ -16,6 +16,10 @@ class ServerClient {
         return states;
     }
 
+    async getEntityState(entityId: string) {
+        return (await this.getCall(`/devices/${entityId}/state`)) as State;
+    }
+
     async getRegisteredDevices(): Promise<Device[]> {
         return (await this.getCall('/devices/registered')) as Device[];
     }
