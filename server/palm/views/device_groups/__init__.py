@@ -1,1 +1,1 @@
-from . import groups
+from . import group, groups

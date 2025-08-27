@@ -5,7 +5,6 @@ from ...clients import home_assistant_client
 
 @csrf_exempt
 def index(request, entityId):
-
     match request.method:
         case "POST":
             return _processPost(request, entityId)
