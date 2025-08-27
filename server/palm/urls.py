@@ -9,6 +9,5 @@ urlpatterns = [
     path("devices/register/", devices.register.index, name="devices_register"),
     path("devices/registered/", devices.registered.index, name="devices_registered"),
     path("devices/deregister/", devices.deregister.index, name="devices_deregister"),
-    path("devices/state/modify/", state.modify.index, name="devices_state_modify"),
-    path("groups/", device_groups.groups.index, name="device_groups")
+    path("devices/<str:entityId>/state/", devices.state.index, name="devices_entityId_state")
 ]

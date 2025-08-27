@@ -35,10 +35,9 @@ class ServerClient {
     }
 
     async modifyDeviceState(domain: string, service: string, entityId: string) {
-        return await this.postCall('/devices/state/modify', {
+        return await this.postCall(`/devices/${entityId}/state`, {
             domain: domain,
-            service: service,
-            entity_id: entityId
+            service: service
         });
     }
 
