@@ -21,25 +21,22 @@ class ServerClient {
     }
 
     async getRegisteredDevices(): Promise<Device[]> {
-        return (await this.getCall('/devices/registered')) as Device[];
+        return (await this.getCall('/devices/')) as Device[];
     }
 
     async registerDevice(entityId: string, friendlyName: string) {
-        return await this.postCall('/devices/register', {
+        return await this.postCall('/devices/', {
             entity_id: entityId,
             friendly_name: friendlyName
         });
     }
 
-    async deregisterDevice(entityId: string, friendlyName: string) {
-        return await this.postCall('/devices/deregister', {
-            entity_id: entityId,
-            friendly_name: friendlyName
-        });
+    async deregisterDevice(entityId: string) {
+        return await this.deleteCall(`/devices/${entityId}/`)
     }
 
     async modifyDeviceState(domain: string, service: string, entityId: string) {
-        return await this.postCall(`/devices/${entityId}/state`, {
+        return await this.postCall(`/devices/${entityId}/state/`, {
             domain: domain,
             service: service
         });
@@ -57,7 +54,7 @@ class ServerClient {
     }
 
     private async postCall(url: string, data: { [key: string]: string }) {
-        const targetUrl = `${this.endpoint}${url}/`;
+        const targetUrl = `${this.endpoint}${url}`;
         console.log(`Calling ${targetUrl}`);
 
         const response = await fetch(targetUrl, {
@@ -72,6 +69,20 @@ class ServerClient {
         }
         return await response.json();
     }
+
+		private async deleteCall(url: string) {
+			const targetUrl = `${this.endpoint}${url}`;
+      console.log(`Calling ${targetUrl}`);
+
+			const response = await fetch(targetUrl, {
+            method: 'DELETE',
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error response code: ${response.status}`);
+        }
+        return await response.json();
+		}
 }
 
 const serverClient = new ServerClient(SERVER_CLIENT_URL);

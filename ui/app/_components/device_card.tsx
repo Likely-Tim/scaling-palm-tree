@@ -83,8 +83,7 @@ export default function DeviceCard(props: DeviceCardProps) {
                         onClick={async () => {
                             toaster.promise(
                                 deregisterDevice(
-                                    props.entityId,
-                                    props.friendlyName
+                                    props.entityId
                                 ),
                                 {
                                     success: {

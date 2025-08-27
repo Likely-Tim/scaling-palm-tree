@@ -1,1 +1,1 @@
-from . import register, registered, deregister, state
+from . import device, devices, state
