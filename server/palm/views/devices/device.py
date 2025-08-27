@@ -13,11 +13,11 @@ HOME_ASSISTANT_URL = os.getenv(env_constants.HOME_ASSISTANT_URL)
 def index(request, entity_id):
     match request.method:  
         case "GET":
-            device = get_object_or_404(Device, entity_id=entity_id)
+            device = get_object_or_404(Device, entity_id=entity_id, home_assistant_url=HOME_ASSISTANT_URL)
             return JsonResponse(model_to_dict(device))
         case "DELETE":
             logging.info(f"Attempting to deregister Device {entity_id}")
-            device = get_object_or_404(Device, entity_id=entity_id)
+            device = get_object_or_404(Device, entity_id=entity_id, home_assistant_url=HOME_ASSISTANT_URL)
             device.delete()
             logging.info(f"Device {entity_id} deleted")
             return JsonResponse({"Device Deregistered": entity_id})
