@@ -2,10 +2,15 @@
 
 import { Switch } from '@chakra-ui/react';
 import { useState } from 'react';
-import { modifyDeviceState } from '../_actions/server_client_actions';
+import {
+    checkToggleState,
+    getEntityState,
+    modifyDeviceState
+} from '../_actions/server_client_actions';
 import { useRouter } from 'next/navigation';
 import { CiNoWaitingSign } from 'react-icons/ci';
 import { FaWind } from 'react-icons/fa';
+import { getActionToast } from '../utils/toast_utils';
 
 export interface HaFanProps {
     state: string | undefined;
@@ -22,14 +27,23 @@ export default function HaFan(props: HaFanProps) {
             disabled={disabled}
             size={'md'}
             checked={checked}
-            onCheckedChange={e => {
-                modifyDeviceState('fan', 'toggle', props.entityId);
+            onCheckedChange={async e => {
                 setChecked(e.checked);
                 setDisabled(true);
-                setTimeout(() => {
-                    setDisabled(false);
-                    router.refresh();
-                }, 1500);
+                const priorState = await getEntityState(props.entityId);
+                modifyDeviceState('fan', 'toggle', props.entityId);
+                getActionToast(
+                    checkToggleState(
+                        props.entityId,
+                        priorState.state,
+                        10,
+                        1000
+                    ),
+                    'toggled',
+                    props.entityId
+                );
+                setDisabled(false);
+                router.refresh();
             }}
         >
             <Switch.HiddenInput />
