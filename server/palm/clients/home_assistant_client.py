@@ -9,6 +9,9 @@ DEFAULT_HEADERS = {"Authorization": f"Bearer {HOME_ASSISTANT_TOKEN}", "content-t
 def get_states():
     return _call("api/states")
 
+def get_entity_state(entityId):
+    return _call(f"api/states/{entityId}")
+
 def get_services():
     return _call("api/services")
 
