@@ -11,7 +11,7 @@ export interface DeviceCardOverlayProps {
 export default function DeviceCardOverlay(props: DeviceCardOverlayProps) {
     return (
         <Dialog.Root>
-            <Dialog.Trigger marginLeft={'auto'}>
+            <Dialog.Trigger marginLeft={'auto'} asChild>
                 <IconButton variant={'ghost'} size={'xs'}>
                     <FaExternalLinkAlt />
                 </IconButton>
