@@ -16,6 +16,7 @@ class Device(models.Model):
 class DeviceGroup(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     description = models.CharField(null=False, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         constraints = [
