@@ -6,6 +6,7 @@ import { Container } from '@chakra-ui/react';
 import DeviceBlock from '../_components/device_block';
 import { JSX } from '@emotion/react/jsx-runtime';
 import HaSwitch from '../_components/ha_switch';
+import HaFan from '../_components/ha_fan';
 
 export const metadata: Metadata = {
     title: 'Overview'
@@ -59,6 +60,14 @@ function getDomainCapabilities(
             return [
                 <HaSwitch
                     key={`${entityId}_switch`}
+                    entityId={entityId}
+                    state={state}
+                />
+            ];
+        case 'fan':
+            return [
+                <HaFan
+                    key={`${entityId}_fan`}
                     entityId={entityId}
                     state={state}
                 />
