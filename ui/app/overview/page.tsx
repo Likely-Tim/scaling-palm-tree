@@ -7,6 +7,7 @@ import DeviceBlock from '../_components/device_block';
 import { JSX } from '@emotion/react/jsx-runtime';
 import HaSwitch from '../_components/ha_switch';
 import HaFan from '../_components/ha_fan';
+import RefreshBar from '../_components/refresh_bar';
 
 export const metadata: Metadata = {
     title: 'Overview'
@@ -36,6 +37,7 @@ export default async function Page() {
 
     return (
         <Container>
+            <RefreshBar />
             <DeviceBlock
                 name={'Devices'}
                 showDeregisterButton={false}
