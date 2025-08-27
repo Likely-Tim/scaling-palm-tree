@@ -32,7 +32,7 @@ export default function HaSwitch(props: HaSwitchProps) {
                 setChecked(e.checked);
                 setDisabled(true);
                 const priorState = await getEntityState(props.entityId);
-                await modifyDeviceState('switch', 'toggle', props.entityId);
+                modifyDeviceState('switch', 'toggle', props.entityId);
                 getActionToast(
                     checkToggleState(props.entityId, priorState.state),
                     'toggled',

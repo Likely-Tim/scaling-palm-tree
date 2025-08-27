@@ -31,7 +31,7 @@ export default function HaFan(props: HaFanProps) {
                 setChecked(e.checked);
                 setDisabled(true);
                 const priorState = await getEntityState(props.entityId);
-                await modifyDeviceState('fan', 'toggle', props.entityId);
+                modifyDeviceState('fan', 'toggle', props.entityId);
                 getActionToast(
                     checkToggleState(props.entityId, priorState.state),
                     'toggled',
