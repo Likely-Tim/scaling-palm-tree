@@ -4,16 +4,15 @@ import { Flex, HStack, Slider, Switch } from '@chakra-ui/react';
 import { useState } from 'react';
 import {
     checkToggleState,
-    getEntityState,
     modifyDeviceState
 } from '../_actions/server_client_actions';
 import { useRouter } from 'next/navigation';
 import { CiNoWaitingSign } from 'react-icons/ci';
 import { FaWind } from 'react-icons/fa';
-import { getActionToast } from '../utils/toast_utils';
+import { createLoadingToast, updateToast } from '../utils/toast_utils';
 
 export interface HaFanProps {
-    state: string | undefined;
+    state: string;
     entityId: string;
     percentage: number;
 }
@@ -24,26 +23,50 @@ export default function HaFan(props: HaFanProps) {
     const [sliderValue, setSliderValue] = useState(props.percentage);
     const router = useRouter();
 
+    async function onToggle(checked: boolean) {
+        setDisabled(true);
+        setChecked(checked);
+        const toasterId = `${props.entityId}-SwitchToast`;
+        createLoadingToast(toasterId, `Trying to toggle ${props.entityId}`);
+        modifyDeviceState('fan', 'toggle', props.entityId);
+        try {
+            await checkToggleState(props.entityId, props.state);
+            updateToast(
+                toasterId,
+                'success',
+                `Successfully toggled ${props.entityId}`
+            );
+        } catch (error) {
+            updateToast(
+                toasterId,
+                'error',
+                `Failed to toggle ${props.entityId}`
+            );
+            setChecked(!checked);
+        }
+        setDisabled(false);
+        router.refresh();
+    }
+
+    async function onSlider(newValue: number) {
+        const change = newValue - sliderValue;
+        setSliderValue(newValue);
+        modifyDeviceState(
+            'fan',
+            change > 0 ? 'increase_speed' : 'decrease_speed',
+            props.entityId,
+            {
+                percentage_step: Math.abs(change)
+            }
+        );
+    }
+
     return (
         <Flex alignItems={'center'} gap={5} flexDirection={'row'}>
             <Slider.Root
                 defaultValue={[sliderValue]}
                 width={'150px'}
-                onValueChangeEnd={async e => {
-                    const priorValue = sliderValue;
-                    const newValue = Number(e.value.at(0));
-                    const change = newValue - priorValue;
-                    console.log(priorValue, newValue, change);
-                    setSliderValue(newValue);
-                    modifyDeviceState(
-                        'fan',
-                        change > 0 ? 'increase_speed' : 'decrease_speed',
-                        props.entityId,
-                        {
-                            percentage_step: Math.abs(change)
-                        }
-                    );
-                }}
+                onValueChangeEnd={e => onSlider(Number(e.value.at(0)))}
             >
                 <HStack justify="space-between">
                     <Slider.Label>Speed</Slider.Label>
@@ -61,19 +84,7 @@ export default function HaFan(props: HaFanProps) {
                 disabled={disabled}
                 size={'md'}
                 checked={checked}
-                onCheckedChange={async e => {
-                    setChecked(e.checked);
-                    setDisabled(true);
-                    const priorState = await getEntityState(props.entityId);
-                    modifyDeviceState('fan', 'toggle', props.entityId);
-                    getActionToast(
-                        checkToggleState(props.entityId, priorState.state),
-                        'toggled',
-                        props.entityId
-                    );
-                    setDisabled(false);
-                    router.refresh();
-                }}
+                onCheckedChange={e => onToggle(e.checked)}
             >
                 <Switch.HiddenInput />
                 <Switch.Label>Toggle</Switch.Label>

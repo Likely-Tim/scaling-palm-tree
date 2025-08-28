@@ -1,17 +1,18 @@
 import { toaster } from '../_components/ui/toaster';
 
-export function getActionToast(
-    promise: Promise<any>,
-    action: string,
-    entityId: string
+export function createLoadingToast(
+    id: string,
+    title?: string,
+    description?: string
 ) {
-    toaster.promise(promise, {
-        success: {
-            title: `Successfully ${action} ${entityId}`
-        },
-        loading: {
-            title: `Trying to ${action} ${entityId}`
-        },
-        error: { title: `Failed to ${action} ${entityId}` }
-    });
+    toaster.loading({ id, title, description });
+}
+
+export function updateToast(
+    id: string,
+    type?: string,
+    title?: string,
+    description?: string
+) {
+    toaster.update(id, { title, description, type });
 }

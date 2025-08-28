@@ -5,16 +5,14 @@ import { useState } from 'react';
 import { LuMoon } from 'react-icons/lu';
 import {
     checkToggleState,
-    getEntityState,
     modifyDeviceState
 } from '../_actions/server_client_actions';
 import { useRouter } from 'next/navigation';
 import { MdSunny } from 'react-icons/md';
-import { toaster } from './ui/toaster';
-import { getActionToast } from '../utils/toast_utils';
+import { createLoadingToast, updateToast } from '../utils/toast_utils';
 
 export interface HaSwitchProps {
-    state: string | undefined;
+    state: string;
     entityId: string;
 }
 
@@ -23,24 +21,37 @@ export default function HaSwitch(props: HaSwitchProps) {
     const [disabled, setDisabled] = useState(false);
     const router = useRouter();
 
+    async function onToggle(checked: boolean) {
+        setDisabled(true);
+        setChecked(checked);
+        const toasterId = `${props.entityId}-SwitchToast`;
+        createLoadingToast(toasterId, `Trying to toggle ${props.entityId}`);
+        modifyDeviceState('switch', 'toggle', props.entityId);
+        try {
+            await checkToggleState(props.entityId, props.state);
+            updateToast(
+                toasterId,
+                'success',
+                `Successfully toggled ${props.entityId}`
+            );
+        } catch (error) {
+            updateToast(
+                toasterId,
+                'error',
+                `Failed to toggle ${props.entityId}`
+            );
+            setChecked(!checked);
+        }
+        setDisabled(false);
+        router.refresh();
+    }
+
     return (
         <Switch.Root
             disabled={disabled}
             size={'md'}
             checked={checked}
-            onCheckedChange={async e => {
-                setChecked(e.checked);
-                setDisabled(true);
-                const priorState = await getEntityState(props.entityId);
-                modifyDeviceState('switch', 'toggle', props.entityId);
-                getActionToast(
-                    checkToggleState(props.entityId, priorState.state),
-                    'toggled',
-                    props.entityId
-                );
-                setDisabled(false);
-                router.refresh();
-            }}
+            onCheckedChange={e => onToggle(e.checked)}
         >
             <Switch.HiddenInput />
             <Switch.Label>Toggle</Switch.Label>
