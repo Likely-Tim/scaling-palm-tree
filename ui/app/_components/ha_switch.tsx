@@ -4,7 +4,7 @@ import { Switch } from '@chakra-ui/react';
 import { useState } from 'react';
 import { LuMoon } from 'react-icons/lu';
 import {
-    checkToggleState,
+    checkStateChanged,
     modifyDeviceState
 } from '../_actions/server_client_actions';
 import { useRouter } from 'next/navigation';
@@ -26,19 +26,24 @@ export default function HaSwitch(props: HaSwitchProps) {
         setChecked(checked);
         const toasterId = `${props.entityId}-SwitchToast`;
         createLoadingToast(toasterId, `Trying to toggle ${props.entityId}`);
-        modifyDeviceState('switch', 'toggle', props.entityId);
+        const action = checked ? 'turned on' : 'turned off';
+        modifyDeviceState(
+            'switch',
+            checked ? 'turn_on' : 'turn_off',
+            props.entityId
+        );
         try {
-            await checkToggleState(props.entityId, props.state);
+            await checkStateChanged(props.entityId, props.state);
             updateToast(
                 toasterId,
                 'success',
-                `Successfully toggled ${props.entityId}`
+                `Successfully ${action} ${props.entityId}`
             );
         } catch (error) {
             updateToast(
                 toasterId,
                 'error',
-                `Failed to toggle ${props.entityId}`
+                `Failed to ${action} ${props.entityId}`
             );
             setChecked(!checked);
         }

@@ -3,7 +3,8 @@
 import { Flex, HStack, Slider, Switch } from '@chakra-ui/react';
 import { useState } from 'react';
 import {
-    checkToggleState,
+    checkPercentageChanged,
+    checkStateChanged,
     modifyDeviceState
 } from '../_actions/server_client_actions';
 import { useRouter } from 'next/navigation';
@@ -28,19 +29,24 @@ export default function HaFan(props: HaFanProps) {
         setChecked(checked);
         const toasterId = `${props.entityId}-SwitchToast`;
         createLoadingToast(toasterId, `Trying to toggle ${props.entityId}`);
-        modifyDeviceState('fan', 'toggle', props.entityId);
+        const action = checked ? 'turned on' : 'turned off';
+        modifyDeviceState(
+            'fan',
+            checked ? 'turn_on' : 'turn_off',
+            props.entityId
+        );
         try {
-            await checkToggleState(props.entityId, props.state);
+            await checkStateChanged(props.entityId, props.state);
             updateToast(
                 toasterId,
                 'success',
-                `Successfully toggled ${props.entityId}`
+                `Successfully ${action} ${props.entityId}`
             );
         } catch (error) {
             updateToast(
                 toasterId,
                 'error',
-                `Failed to toggle ${props.entityId}`
+                `Failed to ${action} ${props.entityId}`
             );
             setChecked(!checked);
         }
@@ -49,8 +55,14 @@ export default function HaFan(props: HaFanProps) {
     }
 
     async function onSlider(newValue: number) {
+        const toasterId = `${props.entityId}-SliderToast`;
         const change = newValue - sliderValue;
         setSliderValue(newValue);
+        createLoadingToast(
+            toasterId,
+            `Trying to change speed for ${props.entityId}`
+        );
+        const action = change > 0 ? 'increased speed' : 'decreased speed';
         modifyDeviceState(
             'fan',
             change > 0 ? 'increase_speed' : 'decrease_speed',
@@ -59,6 +71,23 @@ export default function HaFan(props: HaFanProps) {
                 percentage_step: Math.abs(change)
             }
         );
+        try {
+            await checkPercentageChanged(props.entityId, props.percentage);
+            updateToast(
+                toasterId,
+                'success',
+                `Successfully ${action} ${props.entityId}`
+            );
+        } catch (error) {
+            updateToast(
+                toasterId,
+                'error',
+                `Failed to ${action} ${props.entityId}`
+            );
+            setChecked(!checked);
+        }
+        setDisabled(false);
+        router.refresh();
     }
 
     return (

@@ -28,7 +28,7 @@ export async function getEntityState(entityId: string) {
     return await serverClient.getEntityState(entityId);
 }
 
-export async function checkToggleState(
+export async function checkStateChanged(
     entityId: string,
     oldState: string,
     count: number = 10,
@@ -38,7 +38,29 @@ export async function checkToggleState(
         async () => {
             const state = await getEntityState(entityId);
             if (oldState == state.state) {
-                throw new Error(`${entityId} has not toggled state yet`);
+                throw new Error(`${entityId} has not changed state yet`);
+            }
+            return state;
+        },
+        count,
+        delayMs
+    );
+}
+
+export async function checkPercentageChanged(
+    entityId: string,
+    oldPercentage: number,
+    count: number = 10,
+    delayMs: number = 1000
+) {
+    return await retry(
+        async () => {
+            const state = await getEntityState(entityId);
+            console.log(
+                `Checking percentage changed - oldPercentage ${oldPercentage}, newPercentage ${state.attributes.percentage}`
+            );
+            if (oldPercentage == state.attributes.percentage) {
+                throw new Error(`${entityId} has not changed percentage yet`);
             }
             return state;
         },
