@@ -14,9 +14,10 @@ export async function deregisterDevice(entityId: string) {
 export async function modifyDeviceState(
     domain: string,
     service: string,
-    entityId: string
+    entityId: string,
+    ext: { [key: string]: any } = {}
 ) {
-    await serverClient.modifyDeviceState(domain, service, entityId);
+    await serverClient.modifyDeviceState(domain, service, entityId, ext);
 }
 
 export async function getStates() {

@@ -8,6 +8,7 @@ import { JSX } from '@emotion/react/jsx-runtime';
 import HaSwitch from '../_components/ha_switch';
 import HaFan from '../_components/ha_fan';
 import RefreshBar from '../_components/refresh_bar';
+import { State } from '../_models/state';
 
 export const metadata: Metadata = {
     title: 'Overview'
@@ -26,11 +27,7 @@ export default async function Page() {
             return {
                 ...device,
                 state: matchingState?.state || 'Unknown',
-                capabilities: getDomainCapabilities(
-                    matchingState?.domain,
-                    matchingState?.entity_id,
-                    matchingState?.state
-                )
+                capabilities: getDomainCapabilities(matchingState)
             };
         }
     );
@@ -47,30 +44,27 @@ export default async function Page() {
     );
 }
 
-function getDomainCapabilities(
-    domain: string | undefined,
-    entityId: string | undefined,
-    state: string | undefined
-): JSX.Element[] {
-    if (entityId == undefined) {
+function getDomainCapabilities(state: State | undefined): JSX.Element[] {
+    if (state == undefined) {
         return [];
     }
 
-    switch (domain) {
+    switch (state.domain) {
         case 'switch':
             return [
                 <HaSwitch
-                    key={`${entityId}_switch`}
-                    entityId={entityId}
-                    state={state}
+                    key={`${state.entity_id}_switch`}
+                    entityId={state.entity_id}
+                    state={state.state}
                 />
             ];
         case 'fan':
             return [
                 <HaFan
-                    key={`${entityId}_fan`}
-                    entityId={entityId}
-                    state={state}
+                    key={`${state.entity_id}_fan`}
+                    entityId={state.entity_id}
+                    state={state.state}
+                    percentage={state.attributes.percentage}
                 />
             ];
         default:

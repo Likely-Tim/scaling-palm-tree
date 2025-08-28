@@ -35,16 +35,22 @@ class ServerClient {
         return await this.deleteCall(`/devices/${entityId}/`);
     }
 
-    async modifyDeviceState(domain: string, service: string, entityId: string) {
+    async modifyDeviceState(
+        domain: string,
+        service: string,
+        entityId: string,
+        ext: { [key: string]: string }
+    ) {
         return await this.postCall(`/devices/${entityId}/state/`, {
             domain: domain,
-            service: service
+            service: service,
+            ext: ext
         });
     }
 
     private async getCall(url: string) {
         const targetUrl = `${this.endpoint}${url}`;
-        console.log(`Calling ${targetUrl}`);
+        console.log(`Calling GET ${targetUrl}`);
 
         const response = await fetch(targetUrl, { cache: 'no-store' });
         if (!response.ok) {
@@ -53,15 +59,16 @@ class ServerClient {
         return await response.json();
     }
 
-    private async postCall(url: string, data: { [key: string]: string }) {
+    private async postCall(url: string, data: { [key: string]: any }) {
         const targetUrl = `${this.endpoint}${url}`;
-        console.log(`Calling ${targetUrl}`);
+        const dataJsonString = JSON.stringify(data);
+        console.log(`Calling POST ${targetUrl} with data: ${dataJsonString}`);
 
         const response = await fetch(targetUrl, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            body: dataJsonString
         });
 
         if (!response.ok) {
@@ -72,7 +79,7 @@ class ServerClient {
 
     private async deleteCall(url: string) {
         const targetUrl = `${this.endpoint}${url}`;
-        console.log(`Calling ${targetUrl}`);
+        console.log(`Calling DELETE ${targetUrl}`);
 
         const response = await fetch(targetUrl, {
             method: 'DELETE'
