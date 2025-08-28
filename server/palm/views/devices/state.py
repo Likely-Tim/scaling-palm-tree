@@ -16,7 +16,8 @@ def _processPost(request, entity_id):
     body = json.loads(request.body)
     domain = body.get("domain")
     service = body.get("service")
-    home_assistant_client.post_services(domain, service, entity_id)
+    ext = body.get("ext")
+    home_assistant_client.post_services(domain, service, entity_id, ext)
     return JsonResponse({})
 
 def _processGet(request, entity_id):

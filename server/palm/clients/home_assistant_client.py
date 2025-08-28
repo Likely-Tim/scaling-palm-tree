@@ -15,8 +15,12 @@ def get_entity_state(entityId):
 def get_services():
     return _call("api/services")
 
-def post_services(domain, service, entity_id):
-    return _callPost(f"api/services/{domain}/{service}", {"entity_id": entity_id})
+def post_services(domain, service, entity_id, ext = None):
+    data = {"entity_id": entity_id}
+    if ext:
+        data.update(ext)
+
+    return _callPost(f"api/services/{domain}/{service}", data)
 
 def _call(path):
     url = HOME_ASSISTANT_URL + "/" + path
@@ -30,7 +34,7 @@ def _call(path):
 
 def _callPost(path, data):
     url = HOME_ASSISTANT_URL + "/" + path
-    print(f"Sending request to {url}.")
+    print(f"Sending request to {url} with a paylod of {data}.")
 
     response = post(url, headers=DEFAULT_HEADERS, json=data)
     try:
