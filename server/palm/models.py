@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models.functions import Lower
 
 class Device(models.Model):
     home_assistant_url = models.CharField(null=False, blank=False)
@@ -17,10 +16,11 @@ class DeviceGroup(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     description = models.CharField(null=False, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    home_assistant_url = models.CharField(null=False, blank=False)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(Lower("name"), name="unique_lowercase_group_name")
+            models.UniqueConstraint(fields=["name", "home_assistant_url"], name="unique_lowercase_group_name")
         ]
 
 class DeviceGroupMembers(models.Model):
