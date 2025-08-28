@@ -32,7 +32,7 @@ class ServerClient {
     }
 
     async deregisterDevice(entityId: string) {
-        return await this.deleteCall(`/devices/${entityId}/`)
+        return await this.deleteCall(`/devices/${entityId}/`);
     }
 
     async modifyDeviceState(domain: string, service: string, entityId: string) {
@@ -70,19 +70,19 @@ class ServerClient {
         return await response.json();
     }
 
-		private async deleteCall(url: string) {
-			const targetUrl = `${this.endpoint}${url}`;
-      console.log(`Calling ${targetUrl}`);
+    private async deleteCall(url: string) {
+        const targetUrl = `${this.endpoint}${url}`;
+        console.log(`Calling ${targetUrl}`);
 
-			const response = await fetch(targetUrl, {
-            method: 'DELETE',
+        const response = await fetch(targetUrl, {
+            method: 'DELETE'
         });
 
         if (!response.ok) {
             throw new Error(`Error response code: ${response.status}`);
         }
         return await response.json();
-		}
+    }
 }
 
 const serverClient = new ServerClient(SERVER_CLIENT_URL);
