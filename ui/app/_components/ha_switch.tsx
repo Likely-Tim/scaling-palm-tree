@@ -55,7 +55,7 @@ export default function HaSwitch(props: HaSwitchProps) {
         <Switch.Root
             disabled={disabled}
             size={'md'}
-            checked={checked}
+            checked={props.state == 'on'}
             onCheckedChange={e => onToggle(e.checked)}
         >
             <Switch.HiddenInput />

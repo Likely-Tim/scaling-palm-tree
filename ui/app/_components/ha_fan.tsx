@@ -90,10 +90,12 @@ export default function HaFan(props: HaFanProps) {
         router.refresh();
     }
 
+    console.log(props.percentage);
+
     return (
         <Flex alignItems={'center'} gap={5} flexDirection={'row'}>
             <Slider.Root
-                defaultValue={[sliderValue]}
+                value={[props.percentage]}
                 width={'150px'}
                 onValueChangeEnd={e => onSlider(Number(e.value.at(0)))}
             >
@@ -112,7 +114,7 @@ export default function HaFan(props: HaFanProps) {
             <Switch.Root
                 disabled={disabled}
                 size={'md'}
-                checked={checked}
+                checked={props.state == 'on'}
                 onCheckedChange={e => onToggle(e.checked)}
             >
                 <Switch.HiddenInput />
