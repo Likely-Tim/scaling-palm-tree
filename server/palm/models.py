@@ -24,9 +24,9 @@ class DeviceGroup(models.Model):
         ]
 
 class DeviceGroupMembers(models.Model):
-    group_id = models.ForeignKey(DeviceGroup, on_delete=models.CASCADE)
-    device_id = models.ForeignKey(Device, on_delete=models.CASCADE)
+    group = models.ForeignKey(DeviceGroup, on_delete=models.CASCADE)
+    entity_id = models.CharField(null=False, blank=False)
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["device_id", "group_id"], name="unique_device_group_membership")
+            models.UniqueConstraint(fields=["entity_id", "group_id"], name="unique_device_group_membership")
     ]
