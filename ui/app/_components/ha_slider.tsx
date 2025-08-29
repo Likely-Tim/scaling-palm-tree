@@ -58,7 +58,6 @@ export default function HaSlider(props: HaSliderProps) {
 
     return (
         <Slider.Root
-            key={`${props.entityId}-${props.percentage}`}
             defaultValue={[sliderValue]}
             disabled={disabled}
             width={'150px'}

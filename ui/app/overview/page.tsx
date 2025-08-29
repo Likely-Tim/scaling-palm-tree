@@ -9,6 +9,7 @@ import HaSwitch from '../_components/ha_switch';
 import HaFan from '../_components/ha_fan';
 import RefreshBar from '../_components/refresh_bar';
 import { State } from '../_models/state';
+import HaLight from '../_components/ha_light';
 
 export const metadata: Metadata = {
     title: 'Overview'
@@ -65,6 +66,14 @@ function getDomainCapabilities(state: State | undefined): JSX.Element[] {
                     entityId={state.entity_id}
                     state={state.state}
                     percentage={state.attributes.percentage}
+                />
+            ];
+        case 'light':
+            return [
+                <HaLight
+                    key={`${state.entity_id}_light`}
+                    entityId={state.entity_id}
+                    state={state.state}
                 />
             ];
         default:
