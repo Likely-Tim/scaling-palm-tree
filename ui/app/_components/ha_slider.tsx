@@ -27,29 +27,30 @@ export default function HaSlider(props: HaSliderProps) {
         setDisabled(true);
         createLoadingToast(
             toasterId,
-            `Trying to change speed for ${props.entityId}`
+            `Trying to change percentage for ${props.entityId}`
         );
-        const action = change > 0 ? 'increased speed' : 'decreased speed';
         modifyDeviceState(
             props.domain,
-            change > 0 ? 'increase_speed' : 'decrease_speed',
+            getAction(props.domain, change),
             props.entityId,
-            {
-                percentage_step: Math.abs(change)
-            }
+            getChangeData(props.domain, change, newValue)
         );
         try {
-            await checkPercentageChanged(props.entityId, props.percentage);
+            await checkPercentageChanged(
+                props.entityId,
+                props.domain,
+                newValue
+            );
             updateToast(
                 toasterId,
                 'success',
-                `Successfully ${action} ${props.entityId}`
+                `Successfully ${getActionDescription(props.domain, change)} for ${props.entityId}`
             );
         } catch (error) {
             updateToast(
                 toasterId,
                 'error',
-                `Failed to ${action} ${props.entityId}`
+                `Failed to ${getActionDescription(props.domain, change)} for ${props.entityId}`
             );
         }
         setDisabled(false);
@@ -64,7 +65,7 @@ export default function HaSlider(props: HaSliderProps) {
             onValueChangeEnd={e => onSlider(Number(e.value.at(0)))}
         >
             <HStack justify="space-between">
-                <Slider.Label>Speed</Slider.Label>
+                <Slider.Label>Percentage</Slider.Label>
                 <Slider.ValueText />
             </HStack>
             <Slider.Control>
@@ -76,4 +77,35 @@ export default function HaSlider(props: HaSliderProps) {
             </Slider.Control>
         </Slider.Root>
     );
+}
+
+function getAction(domain: string, changeAmount: number) {
+    switch (domain) {
+        case 'fan':
+            return changeAmount > 0 ? 'increase_speed' : 'decrease_speed';
+        case 'light':
+            return 'turn_on';
+        default:
+            return '';
+    }
+}
+
+function getActionDescription(domain: string, changeAmount: number) {
+    switch (domain) {
+        case 'fan':
+            return changeAmount > 0 ? 'increased speed' : 'decreased speed';
+        case 'light':
+            return 'changed brightness';
+    }
+}
+
+function getChangeData(domain: string, changeAmount: number, newValue: number) {
+    switch (domain) {
+        case 'fan':
+            return {
+                percentage_step: Math.abs(changeAmount)
+            };
+        case 'light':
+            return { brightness_pct: newValue };
+    }
 }

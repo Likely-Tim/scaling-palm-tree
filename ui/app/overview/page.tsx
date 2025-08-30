@@ -74,6 +74,7 @@ function getDomainCapabilities(state: State | undefined): JSX.Element[] {
                     key={`${state.entity_id}_light`}
                     entityId={state.entity_id}
                     state={state.state}
+                    brightness={state.attributes.brightness}
                 />
             ];
         default:

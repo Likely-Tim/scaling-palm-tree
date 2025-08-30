@@ -53,18 +53,23 @@ export async function checkStateChanged(
 
 export async function checkPercentageChanged(
     entityId: string,
-    oldPercentage: number,
+    domain: string,
+    target: number,
     count: number = 10,
     delayMs: number = 1000
 ) {
     return await retry(
         async () => {
             const state = await getEntityState(entityId);
+            const newPercentage =
+                domain == 'light'
+                    ? Math.round((state.attributes.brightness / 255) * 100)
+                    : state.attributes.percentage;
             console.log(
-                `Checking percentage changed - oldPercentage ${oldPercentage}, newPercentage ${state.attributes.percentage}`
+                `Checking percentage met - target ${target}, newPercentage ${newPercentage}`
             );
-            if (oldPercentage == state.attributes.percentage) {
-                throw new Error(`${entityId} has not changed percentage yet`);
+            if (target != newPercentage) {
+                throw new Error(`${entityId} has not hit target yet.`);
             }
             return state;
         },

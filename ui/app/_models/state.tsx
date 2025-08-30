@@ -8,4 +8,5 @@ export interface State {
 export interface Attributes {
     friendly_name: string;
     percentage: number;
+    brightness: number;
 }
