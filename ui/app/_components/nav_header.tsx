@@ -16,7 +16,8 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 
 const PATHS: { [key: string]: string } = {
     Overview: '/overview',
-    Devices: '/devices'
+    Devices: '/devices',
+    Group: '/groups'
 };
 
 export function NavHeader() {

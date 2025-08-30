@@ -48,6 +48,13 @@ class ServerClient {
         });
     }
 
+    async addGroup(groupName: string, groupDescription: string) {
+        return await this.postCall('/groups/', {
+            name: groupName,
+            description: groupDescription
+        });
+    }
+
     private async getCall(url: string) {
         const targetUrl = `${this.endpoint}${url}`;
         console.log(`Calling GET ${targetUrl}`);
