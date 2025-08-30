@@ -3,7 +3,7 @@
 import { Button, Card, Flex, Icon, Mark, Text } from '@chakra-ui/react';
 import { capitalizeFirstCharacter } from '../utils/text_utils';
 import { CiSun } from 'react-icons/ci';
-import { MdOutlineSensors } from 'react-icons/md';
+import { MdLightbulbOutline, MdOutlineSensors } from 'react-icons/md';
 import { RxSwitch } from 'react-icons/rx';
 import { TbCarFan, TbDeviceUnknown } from 'react-icons/tb';
 import {
@@ -131,6 +131,8 @@ function getDomainIcon(domain: string) {
             return <TbCarFan />;
         case 'switch':
             return <RxSwitch />;
+        case 'light':
+            return <MdLightbulbOutline />;
         default:
             return <TbDeviceUnknown />;
     }

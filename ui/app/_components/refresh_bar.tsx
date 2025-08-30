@@ -22,6 +22,7 @@ export default function RefreshBar() {
     return (
         <Flex justifyContent={'flex-end'}>
             <Select.Root
+                defaultValue={['-1']}
                 collection={refreshCollection}
                 width={'150px'}
                 onValueChange={details => {

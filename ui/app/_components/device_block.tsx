@@ -5,13 +5,17 @@ import {
     Select,
     createListCollection,
     Heading,
-    Grid
+    Grid,
+    IconButton,
+    Flex
 } from '@chakra-ui/react';
 import DeviceCard from './device_card';
 import { Device, DeviceWithCapabilities } from '../_models/device';
 import { State } from '../_models/state';
 import { capitalizeFirstCharacter } from '../utils/text_utils';
 import { useState } from 'react';
+import { IoMdRefresh } from 'react-icons/io';
+import { useRouter } from 'next/navigation';
 
 export interface DeviceBlockProps {
     name: string;
@@ -25,6 +29,7 @@ export default function DeviceBlock(props: DeviceBlockProps) {
     const [domainSelected, setDomainSelected] = useState<string | undefined>(
         undefined
     );
+    const router = useRouter();
     const selectCollection = getListCollection(props.data);
 
     return (
@@ -34,9 +39,21 @@ export default function DeviceBlock(props: DeviceBlockProps) {
             padding={'20px'}
             borderRadius={'20px'}
         >
-            <Heading size={'3xl'} margin={'10px'} marginLeft={'0px'}>
-                {props.name}
-            </Heading>
+            <Flex justifyContent={'space-between'}>
+                <Heading size={'3xl'} margin={'10px'} marginLeft={'0px'}>
+                    {props.name}
+                </Heading>
+                <IconButton
+                    marginRight={'20px'}
+                    marginTop={'10px'}
+                    rounded={'full'}
+                    variant="outline"
+                    size={'md'}
+                    onClick={e => router.refresh()}
+                >
+                    <IoMdRefresh />
+                </IconButton>
+            </Flex>
             <Select.Root
                 collection={selectCollection}
                 onValueChange={details =>
