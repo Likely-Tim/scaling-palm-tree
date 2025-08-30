@@ -13,7 +13,6 @@ import {
 import { toaster } from './ui/toaster';
 import { useRouter } from 'next/navigation';
 import { JSX } from '@emotion/react/jsx-runtime';
-import { useState } from 'react';
 import DeviceCardOverlay from './device_card_overlay';
 
 export interface DeviceCardProps {
@@ -29,7 +28,6 @@ export interface DeviceCardProps {
 
 export default function DeviceCard(props: DeviceCardProps) {
     const router = useRouter();
-    const [overlayEnabled, setOverlayEnabled] = useState(false);
 
     return (
         <Card.Root padding={'5px'} minWidth={'250px'}>
@@ -48,6 +46,7 @@ export default function DeviceCard(props: DeviceCardProps) {
                                     {props.friendlyName}
                                 </Text>
                             ]}
+                            capabilities={props.capabilities}
                         />
                     ) : undefined}
                 </Flex>
