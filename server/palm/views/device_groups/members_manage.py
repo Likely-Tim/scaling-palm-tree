@@ -1,7 +1,4 @@
-import logging
-import json
-
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
@@ -14,4 +11,5 @@ def index(request, group_id, entity_id):
         member.delete()
         return JsonResponse({"group_id":group_id, "removed entity_id": entity_id})
     return JsonResponse(model_to_dict(member))
+
         
