@@ -38,11 +38,15 @@ export async function addGroup(groupName: string, groupDescription: string) {
 }
 
 export async function getUngroupedDevices() {
-	return await serverClient.getUngroupedDevices();
+    return await serverClient.getUngroupedDevices();
 }
 
 export async function getGroupMembers(group: Group) {
     return await serverClient.getGroupMembers(group);
+}
+
+export async function addGroupMember(group: Group, entityId: string) {
+    return await serverClient.addGroupMember(group, entityId);
 }
 
 export async function removeGroupMember(group: Group, device: Device) {

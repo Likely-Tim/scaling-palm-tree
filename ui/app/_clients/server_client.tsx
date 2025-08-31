@@ -59,12 +59,18 @@ class ServerClient {
         });
     }
 
-	async getUngroupedDevices() {
+    async getUngroupedDevices() {
         return (await this.getCall('/devices/?ungrouped=true')) as Device[];
-	}
+    }
 
     async getGroupMembers(group: Group) {
         return await this.getCall(`/groups/${group.id}/member/`);
+    }
+
+    async addGroupMember(group: Group, entityId: string) {
+        return await this.postCall(`/groups/${group.id}/`, {
+            entity_id: entityId
+        });
     }
 
     async removeGroupMembers(group: Group, device: Device) {

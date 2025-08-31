@@ -16,10 +16,15 @@ export default async function GroupCard(props: GroupCardProps) {
     return (
         <Card.Root padding={'5px'} minWidth={'250px'}>
             <Card.Body>
-                <Grid templateColumns="repeat(4, 1fr)">
+                <Grid templateColumns="repeat(3, 1fr)" gap="10px">
                     {devices.map(device => (
                         <GridItem key={device.entity_id}>
-                            <Stack margin={'5px'}>
+                            <Stack
+                                margin={'5px'}
+                                justifyContent="space-between"
+                                height="100%"
+                                width="300px"
+                            >
                                 <DeviceCard
                                     domain={device.domain}
                                     friendlyName={device.friendly_name}

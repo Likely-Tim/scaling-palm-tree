@@ -16,13 +16,16 @@ import { capitalizeFirstCharacter } from '../utils/text_utils';
 import { useState } from 'react';
 import { IoMdRefresh } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
+import { Group } from '../_models/group';
 
 export interface DeviceBlockProps {
     name: string;
     showRegisterButton?: boolean;
     showDeregisterButton?: boolean;
     showPopoutButton?: boolean;
+    showAddGroupButton?: boolean;
     data: Device[] | DeviceWithCapabilities[] | State[];
+    groups?: Group[];
 }
 
 export default function DeviceBlock(props: DeviceBlockProps) {
@@ -56,9 +59,7 @@ export default function DeviceBlock(props: DeviceBlockProps) {
             </Flex>
             <Select.Root
                 collection={selectCollection}
-                onValueChange={details =>
-                    setDomainSelected(details.value.at(0))
-                }
+                onValueChange={details => setDomainSelected(details.value)}
                 marginBottom="15px"
                 width="200px"
             >
@@ -118,6 +119,8 @@ export default function DeviceBlock(props: DeviceBlockProps) {
                                 }
                                 showRegisterButton={props.showRegisterButton}
                                 showPopoutButton={props.showPopoutButton}
+                                showAddGroupButton={props.showAddGroupButton}
+                                groups={props.groups}
                             />
                         );
                     })}

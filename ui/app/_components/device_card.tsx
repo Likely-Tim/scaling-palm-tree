@@ -14,6 +14,8 @@ import { toaster } from './ui/toaster';
 import { useRouter } from 'next/navigation';
 import { JSX } from '@emotion/react/jsx-runtime';
 import DeviceCardOverlay from './device_card_overlay';
+import AddMemberDialog from './groups/add_member_dialog';
+import { Group } from '../_models/group';
 
 export interface DeviceCardProps {
     domain: string;
@@ -25,6 +27,8 @@ export interface DeviceCardProps {
     showRegisterButton?: boolean;
     showDeregisterButton?: boolean;
     showPopoutButton?: boolean;
+    showAddGroupButton?: boolean;
+    groups?: Group[];
 }
 
 export default function DeviceCard(props: DeviceCardProps) {
@@ -116,6 +120,12 @@ export default function DeviceCard(props: DeviceCardProps) {
                     >
                         Deregister
                     </Button>
+                ) : undefined}
+                {props.showAddGroupButton ? (
+                    <AddMemberDialog
+                        groups={props.groups || []}
+                        entityId={props.entityId}
+                    />
                 ) : undefined}
                 {props.capabilities}
             </Card.Footer>

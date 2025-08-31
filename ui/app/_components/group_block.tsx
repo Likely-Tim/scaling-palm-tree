@@ -1,15 +1,8 @@
-import {
-    Accordion,
-    Container,
-    Heading,
-    HStack,
-    Span,
-} from '@chakra-ui/react';
+import { Accordion, Container, Heading, HStack, Span } from '@chakra-ui/react';
 
 import { Group } from '../_models/group';
 import GroupCard from './group_card';
 import AddGroupDialog from './groups/add_group_dialog';
-import AddMemberDialog from './groups/add_member_dialog';
 
 export interface GroupBlockProps {
     name: string;
@@ -27,10 +20,9 @@ export default function GroupBlock(props: GroupBlockProps) {
             <Heading size={'3xl'} margin={'10px'} marginLeft={'0px'}>
                 {props.name}
             </Heading>
-			<HStack>
-			<AddGroupDialog />
-			<AddMemberDialog />
-			</HStack>
+            <HStack>
+                <AddGroupDialog />
+            </HStack>
             <Container margin={'20px'}>
                 <Accordion.Root collapsible>
                     {props.groups.map(group => (
