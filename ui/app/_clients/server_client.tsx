@@ -1,5 +1,6 @@
 import { SERVER_CLIENT_URL } from '../_constants/env_constants';
 import { Device } from '../_models/device';
+import { Group } from '../_models/group';
 import { State } from '../_models/state';
 import { getDomain } from '../utils/state_utils';
 
@@ -46,6 +47,10 @@ class ServerClient {
             service: service,
             ext: ext
         });
+    }
+
+    async getGroups() {
+        return (await this.getCall(`/groups/`)) as Group[];
     }
 
     async addGroup(groupName: string, groupDescription: string) {

@@ -1,16 +1,20 @@
 import {
+    Accordion,
     Button,
     Dialog,
     Container,
     Heading,
     Portal,
+    Span,
     CloseButton,
     Stack
 } from '@chakra-ui/react';
 import AddGroupForm from './groups/add_group_form';
+import { Group } from '../_models/group';
 
 export interface GroupBlockProps {
     name: string;
+    groups: Group[];
 }
 
 export default function GroupBlock(props: GroupBlockProps) {
@@ -50,6 +54,21 @@ export default function GroupBlock(props: GroupBlockProps) {
                     </Dialog.Positioner>
                 </Portal>
             </Dialog.Root>
+            <Container margin={'20px'}>
+                <Accordion.Root collapsible>
+                    {props.groups.map(item => (
+                        <Accordion.Item key={item.id} value={item.name}>
+                            <Accordion.ItemTrigger>
+                                <Span flex="1">{item.name}</Span>
+                                <Accordion.ItemIndicator />
+                            </Accordion.ItemTrigger>
+                            <Accordion.ItemContent>
+                                <Accordion.ItemBody></Accordion.ItemBody>
+                            </Accordion.ItemContent>
+                        </Accordion.Item>
+                    ))}
+                </Accordion.Root>
+            </Container>
         </Container>
     );
 }

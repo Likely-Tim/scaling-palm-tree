@@ -28,6 +28,10 @@ export async function getEntityState(entityId: string) {
     return await serverClient.getEntityState(entityId);
 }
 
+export async function getGroups() {
+    return await serverClient.getGroups();
+}
+
 export async function addGroup(groupName: string, groupDescription: string) {
     return await serverClient.addGroup(groupName, groupDescription);
 }

@@ -10,7 +10,7 @@ export default function AddGroupForm() {
     const router = useRouter();
     const [groupName, setGroupName] = useState('');
     const [groupDetail, setGroupDetail] = useState('');
-		const [errorMsg, setErrormsg] = useState('');
+    const [errorMsg, setErrormsg] = useState('');
 
     const upload = async () => {
         toaster.promise(
@@ -21,7 +21,7 @@ export default function AddGroupForm() {
                     setGroupDetail('');
                     resolve();
                 } catch (error) {
-										setErrormsg(error.message);
+                    setErrormsg(error.message);
                     reject(error);
                 }
             }),
@@ -30,7 +30,7 @@ export default function AddGroupForm() {
                     title: `Successfully added group : ${groupName}`
                 },
                 error: {
-                    title:  `${errorMsg}`
+                    title: `${errorMsg}`
                 },
                 loading: {
                     title: `Trying to add group: ${groupName}`
@@ -45,7 +45,7 @@ export default function AddGroupForm() {
                 <Field.Label>Group Name</Field.Label>
                 <Input
                     placeholder="Group Name"
-										value={groupName}
+                    value={groupName}
                     onChange={e => setGroupName(e.target.value)}
                 />
             </Field.Root>
@@ -53,7 +53,7 @@ export default function AddGroupForm() {
                 <Field.Label>Group Description</Field.Label>
                 <Input
                     placeholder="Group Description"
-										value={groupDetail}
+                    value={groupDetail}
                     onChange={e => setGroupDetail(e.target.value)}
                 ></Input>
             </Field.Root>
