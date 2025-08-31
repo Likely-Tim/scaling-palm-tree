@@ -2,7 +2,6 @@
 
 import serverClient from '@/app/_clients/server_client';
 import { retry } from '@/app/utils/promise_utils';
-
 export async function registerDevice(entityId: string, friendlyName: string) {
     await serverClient.registerDevice(entityId, friendlyName);
 }
@@ -36,6 +35,9 @@ export async function addGroup(groupName: string, groupDescription: string) {
     return await serverClient.addGroup(groupName, groupDescription);
 }
 
+export async function getGroupMembers(group: Group){
+	return await serverClient.getGroupMembers(group)
+}
 
 export async function checkStateChanged(
     entityId: string,

@@ -3,7 +3,6 @@ import { Device } from '../_models/device';
 import { Group } from '../_models/group';
 import { State } from '../_models/state';
 import { getDomain } from '../utils/state_utils';
-
 class ServerClient {
     private endpoint: string;
 
@@ -53,6 +52,7 @@ class ServerClient {
         return (await this.getCall(`/groups/`)) as Group[];
     }
 
+
     async addGroup(groupName: string, groupDescription: string) {
         return await this.postCall('/groups/', {
             name: groupName,
@@ -61,8 +61,7 @@ class ServerClient {
     }
 
 	async getGroupMembers(group: Group) {
-		const response = await this.getCall(`/groups/${group.id}/members`);
-		const data = response.json()
+		return await this.getCall(`/groups/${group.id}/member`);
 	}
 
     private async getCall(url: string) {
