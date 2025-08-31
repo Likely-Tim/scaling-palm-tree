@@ -59,6 +59,10 @@ class ServerClient {
         });
     }
 
+	async getUngroupedDevices() {
+        return (await this.getCall('/devices/?ungrouped=true')) as Device[];
+	}
+
     async getGroupMembers(group: Group) {
         return await this.getCall(`/groups/${group.id}/member/`);
     }

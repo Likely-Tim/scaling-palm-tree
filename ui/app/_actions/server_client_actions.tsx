@@ -37,6 +37,10 @@ export async function addGroup(groupName: string, groupDescription: string) {
     return await serverClient.addGroup(groupName, groupDescription);
 }
 
+export async function getUngroupedDevices() {
+	return await serverClient.getUngroupedDevices();
+}
+
 export async function getGroupMembers(group: Group) {
     return await serverClient.getGroupMembers(group);
 }

@@ -17,6 +17,11 @@ def create(request, group_id):
     except KeyError:
         logging.error("Missing body {'entity_id': 'string'}")
         return HttpResponseBadRequest()
+    try:
+        logging.info(f"Validating device exists in the group")
+        device = Device.objects.get(entity_id=entity_id, home_assistant_url=env_constants.HOME_ASSISTANT_URL)
+    except Exception:
+        return JsonResponse({"message": "Non Existing Entity"}, status = 404)
     logging.info(f"Attempting To Create a Device Group {group_id} Member")
     new_group, created = DeviceGroupMembers.objects.get_or_create(entity_id=entity_id, group_id=group_id) 
     if not created: 
