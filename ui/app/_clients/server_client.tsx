@@ -52,7 +52,6 @@ class ServerClient {
         return (await this.getCall(`/groups/`)) as Group[];
     }
 
-
     async addGroup(groupName: string, groupDescription: string) {
         return await this.postCall('/groups/', {
             name: groupName,
@@ -60,9 +59,15 @@ class ServerClient {
         });
     }
 
-	async getGroupMembers(group: Group) {
-		return await this.getCall(`/groups/${group.id}/member`);
-	}
+    async getGroupMembers(group: Group) {
+        return await this.getCall(`/groups/${group.id}/member/`);
+    }
+
+    async removeGroupMembers(group: Group, device: Device) {
+        return await this.deleteCall(
+            `/groups/${group.id}/member/${device.entity_id}/`
+        );
+    }
 
     private async getCall(url: string) {
         const targetUrl = `${this.endpoint}${url}`;

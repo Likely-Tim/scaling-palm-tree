@@ -65,8 +65,8 @@ export default function GroupBlock(props: GroupBlockProps) {
                             </Accordion.ItemTrigger>
                             <Accordion.ItemContent>
                                 <Accordion.ItemBody>
-									<GroupCard group={group}/>
-								</Accordion.ItemBody>
+                                    <GroupCard group={group} />
+                                </Accordion.ItemBody>
                             </Accordion.ItemContent>
                         </Accordion.Item>
                     ))}
