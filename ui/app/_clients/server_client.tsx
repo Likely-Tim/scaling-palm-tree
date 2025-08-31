@@ -60,6 +60,11 @@ class ServerClient {
         });
     }
 
+	async getGroupMembers(group: Group) {
+		const response = await this.getCall(`/groups/${group.id}/members`);
+		const data = response.json()
+	}
+
     private async getCall(url: string) {
         const targetUrl = `${this.endpoint}${url}`;
         console.log(`Calling GET ${targetUrl}`);

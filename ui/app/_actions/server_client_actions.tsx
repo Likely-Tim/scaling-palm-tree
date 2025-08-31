@@ -36,6 +36,7 @@ export async function addGroup(groupName: string, groupDescription: string) {
     return await serverClient.addGroup(groupName, groupDescription);
 }
 
+
 export async function checkStateChanged(
     entityId: string,
     oldState: string,

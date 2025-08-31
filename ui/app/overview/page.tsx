@@ -20,7 +20,6 @@ export default async function Page() {
     const states = await serverClient.getStates();
     sortStates(states);
     const registeredDevices = await serverClient.getRegisteredDevices();
-
     const devicesWithState: DeviceWithCapabilities[] = registeredDevices.map(
         device => {
             const matchingState = states.find(

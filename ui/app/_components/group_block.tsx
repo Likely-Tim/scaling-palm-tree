@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import AddGroupForm from './groups/add_group_form';
 import { Group } from '../_models/group';
+import GroupCard from './group_card';
 
 export interface GroupBlockProps {
     name: string;
@@ -56,14 +57,16 @@ export default function GroupBlock(props: GroupBlockProps) {
             </Dialog.Root>
             <Container margin={'20px'}>
                 <Accordion.Root collapsible>
-                    {props.groups.map(item => (
-                        <Accordion.Item key={item.id} value={item.name}>
+                    {props.groups.map(group => (
+                        <Accordion.Item key={group.id} value={group.name}>
                             <Accordion.ItemTrigger>
-                                <Span flex="1">{item.name}</Span>
+                                <Span flex="1">{group.name}</Span>
                                 <Accordion.ItemIndicator />
                             </Accordion.ItemTrigger>
                             <Accordion.ItemContent>
-                                <Accordion.ItemBody></Accordion.ItemBody>
+                                <Accordion.ItemBody>
+									<GroupCard group={group}/>
+								</Accordion.ItemBody>
                             </Accordion.ItemContent>
                         </Accordion.Item>
                     ))}

@@ -28,7 +28,7 @@ def index(request, group_id):
         group = get_object_or_404(DeviceGroup, id=group_id, home_assistant_url=env_constants.HOME_ASSISTANT_URL)
         group_entities = DeviceGroupMembers.objects.filter(group=group)
         group_entities_ids = [entity.entity_id for entity in group_entities]
-        logging.info("Device group entity ids found", group_entities_ids)
+        logging.info(f"Device group entity ids found: {group_entities_ids}")
         devices = Device.objects.filter(entity_id__in=group_entities_ids, home_assistant_url=env_constants.HOME_ASSISTANT_URL)
         result = {"group": model_to_dict(group), "devices": [model_to_dict(device) for device in devices]}
         return JsonResponse(result)
