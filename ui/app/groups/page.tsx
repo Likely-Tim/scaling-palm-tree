@@ -11,7 +11,7 @@ export default async function Page() {
         <Container>
             <GroupBlock name={'Group Management'} groups={groups} />
             <DeviceBlock
-                name={'Unregistered Device'}
+                name={'Ungrouped Device'}
                 data={ungroupedDevices}
                 showAddGroupButton={true}
                 groups={groups}
