@@ -10,6 +10,7 @@ import HaFan from '../_components/ha_fan';
 import RefreshBar from '../_components/refresh_bar';
 import { State } from '../_models/state';
 import HaLight from '../_components/ha_light';
+import HaColor from '../_components/ha_color';
 
 export const metadata: Metadata = {
     title: 'Overview'
@@ -28,7 +29,8 @@ export default async function Page() {
             return {
                 ...device,
                 state: matchingState?.state || 'Unknown',
-                capabilities: getDomainCapabilities(matchingState)
+                capabilities: getDomainCapabilities(matchingState),
+                extraCapabilities: getExtraDomainCapabilities(matchingState)
             };
         }
     );
@@ -75,6 +77,25 @@ function getDomainCapabilities(state: State | undefined): JSX.Element[] {
                     entityId={state.entity_id}
                     state={state.state}
                     brightness={state.attributes.brightness}
+                />
+            ];
+        default:
+            return [];
+    }
+}
+
+function getExtraDomainCapabilities(state: State | undefined): JSX.Element[] {
+    if (state == undefined) {
+        return [];
+    }
+
+    switch (state.domain) {
+        case 'light':
+            return [
+                <HaColor
+                    domain={state.domain}
+                    entityId={state.entity_id}
+                    rgbColor={state.attributes.rgb_color}
                 />
             ];
         default:

@@ -9,4 +9,5 @@ export interface Attributes {
     friendly_name: string;
     percentage: number;
     brightness: number;
+    rgb_color: number[];
 }

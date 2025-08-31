@@ -21,6 +21,7 @@ export interface DeviceCardProps {
     entityId: string;
     state?: string;
     capabilities?: JSX.Element[];
+    extraCapabilities?: JSX.Element[];
     showRegisterButton?: boolean;
     showDeregisterButton?: boolean;
     showPopoutButton?: boolean;
@@ -47,6 +48,8 @@ export default function DeviceCard(props: DeviceCardProps) {
                                 </Text>
                             ]}
                             capabilities={props.capabilities}
+                            extraCapabilities={props.extraCapabilities}
+                            domain={props.domain}
                         />
                     ) : undefined}
                 </Flex>

@@ -108,6 +108,11 @@ export default function DeviceBlock(props: DeviceBlockProps) {
                                         ? item.capabilities
                                         : undefined
                                 }
+                                extraCapabilities={
+                                    'extraCapabilities' in item
+                                        ? item.extraCapabilities
+                                        : undefined
+                                }
                                 showDeregisterButton={
                                     props.showDeregisterButton
                                 }

@@ -13,7 +13,6 @@ export interface HaLightProps {
 export default function HaLight(props: HaLightProps) {
     // Max brightness = 255
     const percentage = (props.brightness / 255) * 100;
-    console.log(percentage);
 
     return (
         <Flex alignItems={'flex-end'} gap={5} flexDirection={'row'}>

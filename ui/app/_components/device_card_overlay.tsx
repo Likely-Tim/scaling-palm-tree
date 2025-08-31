@@ -1,12 +1,14 @@
 'use client';
 
-import { CloseButton, Dialog, IconButton } from '@chakra-ui/react';
+import { CloseButton, Container, Dialog, IconButton } from '@chakra-ui/react';
 import { JSX } from '@emotion/react/jsx-runtime';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
 export interface DeviceCardOverlayProps {
     titleElements?: JSX.Element[];
     capabilities?: JSX.Element[];
+    extraCapabilities?: JSX.Element[];
+    domain: string;
 }
 
 export default function DeviceCardOverlay(props: DeviceCardOverlayProps) {
@@ -26,7 +28,12 @@ export default function DeviceCardOverlay(props: DeviceCardOverlayProps) {
                     <Dialog.Header marginBottom={'5px'}>
                         {props.titleElements}
                     </Dialog.Header>
-                    <Dialog.Body>{props.capabilities}</Dialog.Body>
+                    <Dialog.Body>
+                        <Container centerContent={true} gap={'15px'}>
+                            {props.extraCapabilities}
+                            {props.capabilities}
+                        </Container>
+                    </Dialog.Body>
                     <Dialog.Footer />
                 </Dialog.Content>
             </Dialog.Positioner>

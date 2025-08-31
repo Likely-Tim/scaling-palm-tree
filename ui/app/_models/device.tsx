@@ -9,4 +9,5 @@ export interface Device {
 export interface DeviceWithCapabilities extends Device {
     state: string;
     capabilities?: JSX.Element[];
+    extraCapabilities?: JSX.Element[];
 }
